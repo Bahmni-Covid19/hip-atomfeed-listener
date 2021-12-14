@@ -1,4 +1,10 @@
-# PACS-Integration
+# Atomfeed listener
+
+This is a forked repo from Bahmni/pacs-integration and was refactored for Hip initiated linking and notifying user on new care-context generation (both of them are ABDM features)
+
+#to-do
+1) refactor code that is not required.
+2) filter out the encounter type to be listened on.
 
 
 #####< IMPORTANT >
