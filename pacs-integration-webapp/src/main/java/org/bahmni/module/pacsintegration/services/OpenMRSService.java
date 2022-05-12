@@ -3,14 +3,13 @@ package org.bahmni.module.pacsintegration.services;
 import org.bahmni.module.pacsintegration.atomfeed.client.ConnectionDetails;
 import org.bahmni.module.pacsintegration.atomfeed.client.WebClientFactory;
 import org.bahmni.module.pacsintegration.atomfeed.contract.encounter.OpenMRSEncounter;
+import org.bahmni.module.pacsintegration.atomfeed.contract.globalProperty.OpenMRSProperties;
 import org.bahmni.module.pacsintegration.atomfeed.contract.patient.OpenMRSPatient;
 import org.bahmni.module.pacsintegration.atomfeed.mappers.OpenMRSEncounterMapper;
 import org.bahmni.module.pacsintegration.atomfeed.mappers.OpenMRSPatientMapper;
-import org.bahmni.module.pacsintegration.atomfeed.worker.EncounterFeedWorker;
+import org.bahmni.module.pacsintegration.atomfeed.mappers.OpenMRSPropertiesMapper;
 import org.bahmni.webclients.HttpClient;
 import org.bahmni.webclients.ObjectMapperRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -18,12 +17,18 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.bahmni.module.pacsintegration.atomfeed.client.Constants.OPENMRS_PROPERTY_ENCOUNTERS_TO_BE_IGNORED;
 
 @Component
 public class OpenMRSService {
 
     String patientRestUrl = "/openmrs/ws/rest/v1/patient/";
     String newCareContextUrl = "/openmrs/ws/rest/v1/hip/careContext/new?patientUuid=";
+    String globalPropertyurl = "/openmrs/ws/rest/v1/systemsetting/";
 
     public OpenMRSEncounter getEncounter(String encounterUrl) throws IOException {
         HttpClient webClient = WebClientFactory.getClient();
@@ -46,6 +51,15 @@ public class OpenMRSService {
 
         String careContextJSON = webClient.get(URI.create(urlPrefix + newCareContextUrl + patientUuid));
         return new OpenMRSPatientMapper().mapCareContext(careContextJSON);
+    }
+    public List<String> getIgnoredEncountersFromGlobalProperty() throws IOException {
+            HttpClient webClient = WebClientFactory.getClient();
+            String urlPrefix = getURLPrefix();
+            String Json = webClient.get(URI.create(urlPrefix + globalPropertyurl + OPENMRS_PROPERTY_ENCOUNTERS_TO_BE_IGNORED));
+
+            OpenMRSProperties openMRSProperties = new OpenMRSPropertiesMapper().map(Json);
+            String encounters = openMRSProperties.getValue().replaceAll("\\s", "");
+            return new ArrayList<String>(Arrays.asList(encounters.split(",")));
     }
     private String getURLPrefix() {
         org.bahmni.webclients.ConnectionDetails connectionDetails = ConnectionDetails.get();
