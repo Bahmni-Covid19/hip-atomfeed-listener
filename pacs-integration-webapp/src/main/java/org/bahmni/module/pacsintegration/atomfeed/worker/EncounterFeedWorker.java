@@ -10,11 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import java.util.List;
 
 @Component
 public class EncounterFeedWorker implements EventWorker {
 
     private static final Logger logger = LoggerFactory.getLogger(EncounterFeedWorker.class);
+    public static List encounterToBeIgnored;
 
     @Autowired
     private PacsIntegrationService pacsIntegrationService;
@@ -30,10 +32,13 @@ public class EncounterFeedWorker implements EventWorker {
         String bedAssignment = "Bed-Assignment";
         try {
             if (event.getTitle() == null || !event.getTitle().equals(bedAssignment)) {
+                encounterToBeIgnored = (encounterToBeIgnored != null) ? encounterToBeIgnored : openMRSService.getIgnoredEncountersFromGlobalProperty();
                 logger.warn("Getting encounter data...");
                 String encounterUri = event.getContent();
                 OpenMRSEncounter encounter = openMRSService.getEncounter(encounterUri);
-                pacsIntegrationService.processEncounter(encounter);
+                if(!encounterToBeIgnored.contains(encounter.getEncounterType())){
+                    pacsIntegrationService.processEncounter(encounter);
+                }
             }
         } catch (Exception e) {
             logger.error("Failed to process encounter", e);
