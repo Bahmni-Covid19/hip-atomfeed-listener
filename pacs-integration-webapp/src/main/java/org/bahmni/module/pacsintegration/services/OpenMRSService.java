@@ -6,8 +6,11 @@ import org.bahmni.module.pacsintegration.atomfeed.contract.encounter.OpenMRSEnco
 import org.bahmni.module.pacsintegration.atomfeed.contract.patient.OpenMRSPatient;
 import org.bahmni.module.pacsintegration.atomfeed.mappers.OpenMRSEncounterMapper;
 import org.bahmni.module.pacsintegration.atomfeed.mappers.OpenMRSPatientMapper;
+import org.bahmni.module.pacsintegration.atomfeed.worker.EncounterFeedWorker;
 import org.bahmni.webclients.HttpClient;
 import org.bahmni.webclients.ObjectMapperRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -20,6 +23,7 @@ import java.text.ParseException;
 public class OpenMRSService {
 
     String patientRestUrl = "/openmrs/ws/rest/v1/patient/";
+    String newCareContextUrl = "/openmrs/ws/rest/v1/hip/careContext/new?patientUuid=";
 
     public OpenMRSEncounter getEncounter(String encounterUrl) throws IOException {
         HttpClient webClient = WebClientFactory.getClient();
@@ -36,7 +40,13 @@ public class OpenMRSService {
         String patientJSON = webClient.get(URI.create(urlPrefix + patientRestUrl + patientUuid+"?v=full"));
         return new OpenMRSPatientMapper().map(patientJSON);
     }
+    public OpenMRSPatient getCareContext(String patientUuid) throws IOException, ParseException {
+        HttpClient webClient = WebClientFactory.getClient();
+        String urlPrefix = getURLPrefix();
 
+        String careContextJSON = webClient.get(URI.create(urlPrefix + newCareContextUrl + patientUuid));
+        return new OpenMRSPatientMapper().mapCareContext(careContextJSON);
+    }
     private String getURLPrefix() {
         org.bahmni.webclients.ConnectionDetails connectionDetails = ConnectionDetails.get();
         String authenticationURI = connectionDetails.getAuthUrl();
