@@ -10,17 +10,19 @@ import java.util.List;
 public class OpenMRSEncounter {
     private String encounterUuid;
     private String patientUuid;
+    private String encounterType;
     private List<OpenMRSOrder> orders = new ArrayList<OpenMRSOrder>();
     private List<OpenMRSProvider> providers = new ArrayList<OpenMRSProvider>();
 
     public OpenMRSEncounter() {
     }
 
-    public OpenMRSEncounter(String encounterUuid, String patientUuid, List<OpenMRSOrder> orders, List<OpenMRSProvider> providers) {
+    public OpenMRSEncounter(String encounterUuid, String patientUuid,String encounterType, List<OpenMRSOrder> orders, List<OpenMRSProvider> providers) {
 
         this.encounterUuid = encounterUuid;
         this.orders = orders;
         this.patientUuid = patientUuid;
+        this.encounterType = encounterType;
         this.providers = providers;
     }
 
@@ -31,6 +33,10 @@ public class OpenMRSEncounter {
     public String getEncounterUuid() {
         return encounterUuid;
     }
+
+    public String getEncounterType() { return encounterType; }
+
+    public void setEncounterType() { this.encounterType = encounterType; }
 
     public List<OpenMRSOrder> getOrders() {
         return orders;
