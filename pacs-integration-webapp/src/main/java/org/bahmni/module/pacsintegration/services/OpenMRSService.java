@@ -52,10 +52,10 @@ public class OpenMRSService {
         String careContextJSON = webClient.get(URI.create(urlPrefix + newCareContextUrl + patientUuid));
         return new OpenMRSPatientMapper().mapCareContext(careContextJSON);
     }
-    public List<String> getIgnoredEncountersFromGlobalProperty() throws IOException {
+    public List<String> getValueFromGlobalProperty(String property) throws IOException {
             HttpClient webClient = WebClientFactory.getClient();
             String urlPrefix = getURLPrefix();
-            String Json = webClient.get(URI.create(urlPrefix + globalPropertyurl + OPENMRS_PROPERTY_ENCOUNTERS_TO_BE_IGNORED));
+            String Json = webClient.get(URI.create(urlPrefix + globalPropertyurl + property));
 
             OpenMRSProperties openMRSProperties = new OpenMRSPropertiesMapper().map(Json);
             String encounters = openMRSProperties.getValue().replaceAll("\\s", "");
