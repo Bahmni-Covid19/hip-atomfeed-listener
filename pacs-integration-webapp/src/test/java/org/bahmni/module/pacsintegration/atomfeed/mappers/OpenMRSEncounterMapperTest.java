@@ -27,6 +27,8 @@ public class OpenMRSEncounterMapperTest extends OpenMRSMapperBaseTest {
         Assert.assertEquals("105059a8-5226-4b1f-b512-0d3ae685287d", openMRSEncounter.getPatientUuid());
         Assert.assertEquals("Consultation",openMRSEncounter.getEncounterType());
 
+        Assert.assertEquals("Fee Information", openMRSEncounter.getObservations().get(0).getConcept().getName().getName());
+
         checkOrder(openMRSEncounter.getOrders().get(0), "08d2dfa2-2274-44a1-a29e-30ea02df2798", "c42e71d7-3f10-11e4-adec-0800271c1b75", "HEAD Skull AP", true, "NEW");
         checkOrder(openMRSEncounter.getOrders().get(1), "ce3eeba1-2176-48d0-9ff4-53b731121274", "8c47a469-1b8f-47d9-9363-b97b45e3e740", "Routine Blood", true, "NEW");
         checkOrder(openMRSEncounter.getOrders().get(2), "a8d6e5c8-2eda-11e5-bdc0-6b6ddd11ba75", "8c47a469-1b8f-47d9-9363-b97b45e3e740", "Routine Blood", true, "DISCONTINUE");

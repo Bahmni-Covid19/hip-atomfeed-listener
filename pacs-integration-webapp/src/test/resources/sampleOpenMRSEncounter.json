@@ -1,6 +1,24 @@
 {
   "encounterUuid": "7820b07d-50e9-4fed-b991-c38692b3d4ec",
   "patientUuid": "105059a8-5226-4b1f-b512-0d3ae685287d",
+  "observations": [
+    {
+      "encounterDateTime": 1635406848000,
+      "encounterUuid": "3e444e8e-4aef-4a6d-b45a-778d19200377",
+      "concept": {
+        "uuid": "c446af3d-3f10-11e4-adec-0800271c1b75",
+        "name": "Fee Information",
+        "dataType": "N/A",
+        "shortName": "Fee Information",
+        "conceptClass": "ConvSet",
+        "set": true
+      },
+      "conceptUuid": "c446af3d-3f10-11e4-adec-0800271c1b75",
+      "uuid": "df7461fa-e5a8-47d6-b7c1-81f5709b100a",
+      "observationDateTime": "2021-10-28T13:10:48.000+0530",
+      "conceptNameToDisplay": "Fee Information"
+    }
+  ],
   "orders": [
     {
       "action": "NEW",

@@ -13,17 +13,19 @@ public class OpenMRSEncounter {
     private String encounterType;
     private List<OpenMRSOrder> orders = new ArrayList<OpenMRSOrder>();
     private List<OpenMRSProvider> providers = new ArrayList<OpenMRSProvider>();
+    private List<OpenMRSObs> observations = new ArrayList<OpenMRSObs>();
 
     public OpenMRSEncounter() {
     }
 
-    public OpenMRSEncounter(String encounterUuid, String patientUuid,String encounterType, List<OpenMRSOrder> orders, List<OpenMRSProvider> providers) {
+    public OpenMRSEncounter(String encounterUuid, String patientUuid,String encounterType, List<OpenMRSOrder> orders, List<OpenMRSProvider> providers, List<OpenMRSObs> observations) {
 
         this.encounterUuid = encounterUuid;
         this.orders = orders;
         this.patientUuid = patientUuid;
         this.encounterType = encounterType;
         this.providers = providers;
+        this.observations = observations;
     }
 
     public void setEncounterUuid(String encounterUuid) {
@@ -36,7 +38,7 @@ public class OpenMRSEncounter {
 
     public String getEncounterType() { return encounterType; }
 
-    public void setEncounterType() { this.encounterType = encounterType; }
+    public void setEncounterType(String encounterType) { this.encounterType = encounterType; }
 
     public List<OpenMRSOrder> getOrders() {
         return orders;
@@ -88,5 +90,13 @@ public class OpenMRSEncounter {
 
     public boolean hasOrders() {
         return getOrders().size() > 0;
+    }
+
+    public List<OpenMRSObs> getObservations() {
+        return observations;
+    }
+
+    public void setObservations(List<OpenMRSObs> observations) {
+        this.observations = observations;
     }
 }
