@@ -11,10 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 import java.util.List;
 
 import static org.bahmni.module.pacsintegration.atomfeed.client.Constants.OPENMRS_PROPERTY_CONCEPTS_TO_BE_IGNORED;
 import static org.bahmni.module.pacsintegration.atomfeed.client.Constants.OPENMRS_PROPERTY_ENCOUNTERS_TO_BE_IGNORED;
+import static org.bahmni.module.pacsintegration.atomfeed.client.Constants.OPENMRS_PROPERTY_FORM_FIELDS_TO_BE_IGNORED;
 
 @Component
 public class EncounterFeedWorker implements EventWorker {
@@ -22,7 +25,7 @@ public class EncounterFeedWorker implements EventWorker {
     private static final Logger logger = LoggerFactory.getLogger(EncounterFeedWorker.class);
     public static List encounterToBeIgnored;
     public static List conceptsToBeIgnored;
-
+    public static List formFieldsToBeIgnored;
     @Autowired
     private PacsIntegrationService pacsIntegrationService;
 
@@ -37,8 +40,7 @@ public class EncounterFeedWorker implements EventWorker {
         String bedAssignment = "Bed-Assignment";
         try {
             if (event.getTitle() == null || !event.getTitle().equals(bedAssignment)) {
-                encounterToBeIgnored = (encounterToBeIgnored != null) ? encounterToBeIgnored : openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_ENCOUNTERS_TO_BE_IGNORED);
-                conceptsToBeIgnored = (conceptsToBeIgnored != null) ? conceptsToBeIgnored : openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_CONCEPTS_TO_BE_IGNORED);
+                setIgnoreLists();
                 logger.warn("Getting encounter data...");
                 String encounterUri = event.getContent();
                 OpenMRSEncounter encounter = openMRSService.getEncounter(encounterUri);
@@ -56,14 +58,25 @@ public class EncounterFeedWorker implements EventWorker {
         if(encounterToBeIgnored.contains(encounter.getEncounterType()))
             return true;
         List<OpenMRSObs> observations = encounter.getObservations();
-        boolean ignored = false;
+        boolean allIgnored = false;
         for (OpenMRSObs obs: observations) {
-            if(conceptsToBeIgnored.contains(obs.getConcept().getName().getName()))
-                ignored = true;
-            else
-                return false;
+            if(!conceptsToBeIgnored.contains(obs.getConcept().getName().getName())) {
+                if(obs.getGroupMembers().isEmpty())
+                    return false;
+                for (OpenMRSObs obsGroup : obs.getGroupMembers()){
+                    if(!formFieldsToBeIgnored.contains(obsGroup.getConcept().getName().getName()))
+                        return false;
+                }
+            }
+            allIgnored = true;
         }
-        return ignored;
+        return allIgnored;
+    }
+
+    private void setIgnoreLists() throws IOException {
+        encounterToBeIgnored = (encounterToBeIgnored != null) ? encounterToBeIgnored : openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_ENCOUNTERS_TO_BE_IGNORED);
+        conceptsToBeIgnored = (conceptsToBeIgnored != null) ? conceptsToBeIgnored : openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_CONCEPTS_TO_BE_IGNORED);
+        formFieldsToBeIgnored = (formFieldsToBeIgnored != null) ? formFieldsToBeIgnored : openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_FORM_FIELDS_TO_BE_IGNORED);
     }
 
     @Override
