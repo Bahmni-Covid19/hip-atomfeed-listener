@@ -21,6 +21,7 @@ import java.util.List;
 
 import static org.bahmni.module.pacsintegration.atomfeed.client.Constants.OPENMRS_PROPERTY_CONCEPTS_TO_BE_IGNORED;
 import static org.bahmni.module.pacsintegration.atomfeed.client.Constants.OPENMRS_PROPERTY_ENCOUNTERS_TO_BE_IGNORED;
+import static org.bahmni.module.pacsintegration.atomfeed.client.Constants.OPENMRS_PROPERTY_FORM_FIELDS_TO_BE_IGNORED;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -74,8 +75,8 @@ public class EncounterFeedWorkerTest extends OpenMRSMapperBaseTest {
         OpenMRSConcept concept2 = new OpenMRSConcept("conceptUuid1",new OpenMRSConceptName("concept not in ignored list"),false);
 
         List<OpenMRSObs> observations = new ArrayList<OpenMRSObs>();
-        observations.add(new OpenMRSObs("uuid123",concept1));
-        observations.add(new OpenMRSObs("uuid162",concept2));
+        observations.add(new OpenMRSObs("uuid123",concept1, new ArrayList<OpenMRSObs>()));
+        observations.add(new OpenMRSObs("uuid162",concept2, new ArrayList<OpenMRSObs>()));
 
         openMRSEncounter.setObservations(observations);
 
@@ -86,6 +87,60 @@ public class EncounterFeedWorkerTest extends OpenMRSMapperBaseTest {
         encounterFeedWorker.process(new Event("event id", content));
 
         verify(pacsIntegrationService, times(1)).processEncounter(openMRSEncounter);
+    }
+
+    @Test
+    public void shouldProcessEncounterIfAtLeastOneFormFieldInObservationFormIsNotInIgnoredList() throws Exception {
+        String content = "/openmrs/encounter/uuid1";
+        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounter();
+        OpenMRSConcept concept = new OpenMRSConcept("conceptUuid1",new OpenMRSConceptName("concept not in ignored list"),false);
+        OpenMRSConcept formField1 = new OpenMRSConcept("conceptUuid2",new OpenMRSConceptName("formField not in ignored list"),false);
+        OpenMRSConcept formField2 = new OpenMRSConcept("conceptUuid3",new OpenMRSConceptName("formField in ignored list"),false);
+
+        List<OpenMRSObs> observations = new ArrayList<OpenMRSObs>();
+        List<OpenMRSObs> formFields = new ArrayList<OpenMRSObs>();
+        formFields.add(new OpenMRSObs("uuid",formField1,new ArrayList<OpenMRSObs>()));
+        formFields.add(new OpenMRSObs("uuid",formField2,new ArrayList<OpenMRSObs>()));
+
+        observations.add(new OpenMRSObs("uuid123",concept, formFields));
+
+        openMRSEncounter.setObservations(observations);
+
+        when(openMRSService.getEncounter(content)).thenReturn(openMRSEncounter);
+        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_ENCOUNTERS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("Reg")));
+        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_CONCEPTS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("concept in ignored list")));
+        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_FORM_FIELDS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("formField in ignored list")));
+
+        encounterFeedWorker.process(new Event("event id", content));
+
+        verify(pacsIntegrationService, times(1)).processEncounter(openMRSEncounter);
+    }
+
+    @Test
+    public void shouldNotProcessEncounterIfAllFormFieldInObservationFormIsInIgnoredListButConceptsIsNotInIgnoredList() throws Exception {
+        String content = "/openmrs/encounter/uuid1";
+        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounter();
+        OpenMRSConcept concept = new OpenMRSConcept("conceptUuid1",new OpenMRSConceptName("concept not in ignored list"),false);
+        OpenMRSConcept formField1 = new OpenMRSConcept("conceptUuid2",new OpenMRSConceptName("formField in ignored list"),false);
+        OpenMRSConcept formField2 = new OpenMRSConcept("conceptUuid3",new OpenMRSConceptName("formField in ignored list"),false);
+
+        List<OpenMRSObs> observations = new ArrayList<OpenMRSObs>();
+        List<OpenMRSObs> formFields = new ArrayList<OpenMRSObs>();
+        formFields.add(new OpenMRSObs("uuid",formField1,new ArrayList<OpenMRSObs>()));
+        formFields.add(new OpenMRSObs("uuid",formField2,new ArrayList<OpenMRSObs>()));
+
+        observations.add(new OpenMRSObs("uuid123",concept, formFields));
+
+        openMRSEncounter.setObservations(observations);
+
+        when(openMRSService.getEncounter(content)).thenReturn(openMRSEncounter);
+        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_ENCOUNTERS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("Reg")));
+        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_CONCEPTS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>());
+        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_FORM_FIELDS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("formField in ignored list")));
+
+        encounterFeedWorker.process(new Event("event id", content));
+
+        verify(pacsIntegrationService, times(0)).processEncounter(openMRSEncounter);
     }
 
     @Test(expected = RuntimeException.class)
