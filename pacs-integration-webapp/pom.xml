@@ -8,7 +8,7 @@
         <version>0.94-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <build>
         <plugins>
             <plugin>
@@ -42,6 +42,10 @@
                     </archive>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
         </plugins>
         <finalName>${parent.artifactId}</finalName>
     </build>
@@ -51,6 +55,7 @@
     <properties>
         <atomfeed.version>1.9.4</atomfeed.version>
         <hapi-base.version>2.2</hapi-base.version>
+        <spring.profiles.active>local,no-liquibase</spring.profiles.active>
     </properties>
 
     <dependencies>
@@ -84,8 +89,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.2-1003-jdbc4</version>
-            <scope>runtime</scope>
+            <version>42.2.6</version>
         </dependency>
 
         <dependency>
