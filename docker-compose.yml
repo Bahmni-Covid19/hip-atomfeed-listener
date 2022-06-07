@@ -2,7 +2,7 @@ version: "3.7"
 services:
   hip-atomfeed-listener:
     container_name: hip-atomfeed-listener
-    image: hip-atomfeed
+    image: bahmniindiadistro/hip-atomfeed
     environment:
       - PGPASSWORD=welcome
       - DATABASE_URL=jdbc:postgresql://db:5432/
