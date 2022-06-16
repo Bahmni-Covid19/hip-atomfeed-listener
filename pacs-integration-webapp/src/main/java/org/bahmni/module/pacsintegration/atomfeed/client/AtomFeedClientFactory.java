@@ -57,6 +57,7 @@ public class AtomFeedClientFactory {
         feedProperties.setMaxFailedEvents(Integer.parseInt(atomFeedProperties.getMaxFailedEvents()));
         feedProperties.setFailedEventMaxRetry(Integer.parseInt(atomFeedProperties.getFailedEventMaxRetry()));
         feedProperties.setControlsEventProcessing(true);
+        feedProperties.setHandleRedirection(Boolean.parseBoolean(atomFeedProperties.getHandleRedirection()));
         return feedProperties;
     }
 
