@@ -43,7 +43,7 @@ public class PacsIntegrationService {
 
     private void callNewContext(OpenMRSPatient patient, OpenMRSPatient patientCareContext) throws IOException {
         CloseableHttpClient client = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost("https://ndhm-dev.bahmni-covid19.in/hiprovider/v0.5/hip/new-carecontext");
+        HttpPost httpPost = new HttpPost("https://abdm.bahmni-covid19.in/hiprovider/v0.5/hip/new-carecontext");
 
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(patientCareContext.getCareContexts());
@@ -73,7 +73,7 @@ public class PacsIntegrationService {
     private void callSmsNotify(OpenMRSPatient patient,OpenMRSPatient patientCareContext) throws IOException {
 
         CloseableHttpClient client = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost("https://ndhm-dev.bahmni-covid19.in/hiprovider/v0.5/hip/patients/sms/notify");
+        HttpPost httpPost = new HttpPost("https://abdm.bahmni-covid19.in/hiprovider/v0.5/hip/patients/sms/notify");
 
         String jsonInputString = "{\"phoneNo\": \"" + patient.getPhoneNumber() + "\",\n \"receiverName\":\"" + patient.getGivenName() + "\",\n\"careContextInfo\" : \"" + patientCareContext.getCareContextInfo() + "\"}";
 

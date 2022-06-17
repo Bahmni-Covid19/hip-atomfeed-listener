@@ -8,7 +8,7 @@
         <version>0.94-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <build>
         <plugins>
             <plugin>
@@ -17,29 +17,6 @@
                 <version>2.18.1</version>
                 <configuration>
                     <argLine>-Xmx512m -XX:MaxPermSize=512m</argLine>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.1.1</version>
-                <configuration>
-                    <attachClasses>true</attachClasses>
-                    <webResources>
-                        <resource>
-                            <directory>../scripts</directory>
-                            <includes>
-                                <include>datasetup/*.*</include>
-                            </includes>
-                        </resource>
-                    </webResources>
-                    <archiveClasses>false</archiveClasses>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix />
-                        </manifest>
-                    </archive>
                 </configuration>
             </plugin>
         </plugins>
@@ -51,6 +28,7 @@
     <properties>
         <atomfeed.version>1.9.4</atomfeed.version>
         <hapi-base.version>2.2</hapi-base.version>
+        <spring.profiles.active>local,no-liquibase</spring.profiles.active>
     </properties>
 
     <dependencies>
@@ -84,7 +62,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.2-1003-jdbc4</version>
+            <version>42.2.18</version>
             <scope>runtime</scope>
         </dependency>
 

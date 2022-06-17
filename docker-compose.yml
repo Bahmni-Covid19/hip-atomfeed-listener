@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  hip-atomfeed-listener:
+    container_name: hip-atomfeed-listener
+    image: bahmniindiadistro/hip-atomfeed
+    environment:
+      - PGPASSWORD=welcome
+      - DATABASE_URL=jdbc:postgresql://db:5432/
+      - DATABASE_NAME=bahmni_pacs
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=welcome
+  db:
+    container_name: db
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=welcome
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgresql:/var/lib/postgresql
+      - postgresql_data:/var/lib/postgresql/data
+
+volumes:
+  postgresql:
+  postgresql_data:
