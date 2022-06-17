@@ -58,8 +58,8 @@ public class OpenMRSService {
             String Json = webClient.get(URI.create(urlPrefix + globalPropertyurl + property));
 
             OpenMRSProperties openMRSProperties = new OpenMRSPropertiesMapper().map(Json);
-            String encounters = openMRSProperties.getValue().replaceAll("\\s", "");
-            return new ArrayList<String>(Arrays.asList(encounters.split(",")));
+            ArrayList<String> encounters = openMRSProperties.getValue() != null ? new ArrayList<String>(Arrays.asList(openMRSProperties.getValue().trim().split("\\s*,\\s*"))) : new ArrayList<String>();
+            return encounters;
     }
     private String getURLPrefix() {
         org.bahmni.webclients.ConnectionDetails connectionDetails = ConnectionDetails.get();
