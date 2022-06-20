@@ -28,7 +28,7 @@ public class PacsIntegrationService {
 
     private static final Logger logger = LoggerFactory.getLogger(EncounterFeedWorker.class);
 
-    public void processEncounter(OpenMRSEncounter openMRSEncounter) throws IOException, ParseException, HL7Exception, LLPException {
+    public void processEncounter(OpenMRSEncounter openMRSEncounter) throws IOException, ParseException {
         OpenMRSPatient patient = openMRSService.getPatient(openMRSEncounter.getPatientUuid());
         OpenMRSPatient patientCareContext = openMRSService.getCareContext(openMRSEncounter.getPatientUuid());
 
@@ -63,7 +63,6 @@ public class PacsIntegrationService {
         logger.warn("Headers     : {}", httpPost.getAllHeaders());
         logger.warn("Request body: {}", jsonInputString);
         logger.warn("==========================request end================================================");
-
         CloseableHttpResponse response = client.execute(httpPost);
         logger.warn(String.valueOf(response.getStatusLine().getStatusCode()));
         client.close();
