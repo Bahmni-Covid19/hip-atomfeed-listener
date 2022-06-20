@@ -39,6 +39,10 @@ public class EncounterFeedWorkerTest extends OpenMRSMapperBaseTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_ENCOUNTERS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("Reg")));
+        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_CONCEPTS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("concept in ignored list")));
+        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_FORM_FIELDS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("formField in ignored list")));
+
     }
 
     @Test
@@ -60,7 +64,6 @@ public class EncounterFeedWorkerTest extends OpenMRSMapperBaseTest {
         OpenMRSEncounter openMRSEncounter = new OpenMRSEncounter();
         openMRSEncounter.setEncounterType("Reg");
         when(openMRSService.getEncounter(content)).thenReturn(openMRSEncounter);
-        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_ENCOUNTERS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("Reg")));
 
         encounterFeedWorker.process(new Event("event id", content));
 
@@ -81,8 +84,6 @@ public class EncounterFeedWorkerTest extends OpenMRSMapperBaseTest {
         openMRSEncounter.setObservations(observations);
 
         when(openMRSService.getEncounter(content)).thenReturn(openMRSEncounter);
-        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_ENCOUNTERS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("Reg")));
-        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_CONCEPTS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("concept in ignored list")));
 
         encounterFeedWorker.process(new Event("event id", content));
 
@@ -107,9 +108,6 @@ public class EncounterFeedWorkerTest extends OpenMRSMapperBaseTest {
         openMRSEncounter.setObservations(observations);
 
         when(openMRSService.getEncounter(content)).thenReturn(openMRSEncounter);
-        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_ENCOUNTERS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("Reg")));
-        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_CONCEPTS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("concept in ignored list")));
-        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_FORM_FIELDS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("formField in ignored list")));
 
         encounterFeedWorker.process(new Event("event id", content));
 
@@ -134,9 +132,6 @@ public class EncounterFeedWorkerTest extends OpenMRSMapperBaseTest {
         openMRSEncounter.setObservations(observations);
 
         when(openMRSService.getEncounter(content)).thenReturn(openMRSEncounter);
-        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_ENCOUNTERS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("Reg")));
-        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_CONCEPTS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>());
-        when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_FORM_FIELDS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("formField in ignored list")));
 
         encounterFeedWorker.process(new Event("event id", content));
 
