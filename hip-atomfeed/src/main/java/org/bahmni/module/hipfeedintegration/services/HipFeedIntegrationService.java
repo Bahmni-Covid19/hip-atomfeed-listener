@@ -24,6 +24,9 @@ public class HipFeedIntegrationService {
     @Autowired
     private OpenMRSService openMRSService;
 
+    @Autowired
+    private HipService hipService;
+
     private static final Logger logger = LoggerFactory.getLogger(EncounterFeedWorker.class);
 
     public void processEncounter(OpenMRSEncounter openMRSEncounter) throws IOException, ParseException {
@@ -40,54 +43,26 @@ public class HipFeedIntegrationService {
     }
 
     private void callNewContext(OpenMRSPatient patient, OpenMRSPatient patientCareContext) throws IOException {
-        CloseableHttpClient client = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost("https://abdm.bahmni-covid19.in/hiprovider/v0.5/hip/new-carecontext");
-
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(patientCareContext.getCareContexts());
+        System.out.println(jsonString);
 
         String jsonInputString = "{\"patientReferenceNumber\": \"" + patientCareContext.getPatientReferenceNumber() +
                 "\",\n \"patientName\":\"" + patient.getGivenName() +
                 "\",\n\"careContexts\" : " + jsonString +
                 ",\n\"healthId\" : \"" + patientCareContext.getHealthId() + "\"}";
+        System.out.println(jsonInputString);
 
-        StringEntity entity = new StringEntity(jsonInputString, "application/json", "UTF-8");
-        httpPost.setEntity(entity);
-        httpPost.setHeader("Content-Type", "application/json");
-        httpPost.setHeader("CORRELATION_ID", null);
-        logger.warn("===========================request begin================================================");
-        logger.warn("URI         : {}", httpPost.getURI());
-        logger.warn("Method      : {}", httpPost.getMethod());
-        logger.warn("Headers     : {}", httpPost.getAllHeaders());
-        logger.warn("Request body: {}", jsonInputString);
-        logger.warn("==========================request end================================================");
-        CloseableHttpResponse response = client.execute(httpPost);
-        logger.warn(String.valueOf(response.getStatusLine().getStatusCode()));
-        client.close();
+       hipService.callNewContext(jsonInputString);
     }
 
 
     private void callSmsNotify(OpenMRSPatient patient,OpenMRSPatient patientCareContext) throws IOException {
 
-        CloseableHttpClient client = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost("https://abdm.bahmni-covid19.in/hiprovider/v0.5/hip/patients/sms/notify");
-
         String jsonInputString = "{\"phoneNo\": \"" + patient.getPhoneNumber() + "\",\n \"receiverName\":\"" + patient.getGivenName() + "\",\n\"careContextInfo\" : \"" + patientCareContext.getCareContextInfo() + "\"}";
 
-        StringEntity entity = new StringEntity(jsonInputString, "application/json", "UTF-8");
-        httpPost.setEntity(entity);
-        httpPost.setHeader("Content-Type", "application/json");
-        httpPost.setHeader("CORRELATION_ID", null);
-        logger.warn("===========================request begin================================================");
-        logger.warn("URI         : {}", httpPost.getURI());
-        logger.warn("Method      : {}", httpPost.getMethod());
-        logger.warn("Headers     : {}", httpPost.getAllHeaders());
-        logger.warn("Request body: {}", jsonInputString);
-        logger.warn("==========================request end================================================");
-
-        CloseableHttpResponse response = client.execute(httpPost);
-        logger.warn(String.valueOf(response.getStatusLine().getStatusCode()));
-        client.close();
+        System.out.println(jsonInputString);
+        hipService.smsNotify(jsonInputString);
     }
 
 }

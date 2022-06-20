@@ -59,7 +59,7 @@ public class OpenMRSService {
             ArrayList<String> encounters = openMRSProperties.getValue() != null ? new ArrayList<String>(Arrays.asList(openMRSProperties.getValue().trim().split("\\s*,\\s*"))) : new ArrayList<String>();
             return encounters;
     }
-    private String getURLPrefix() {
+    static String getURLPrefix() {
         org.bahmni.webclients.ConnectionDetails connectionDetails = ConnectionDetails.get();
         String authenticationURI = connectionDetails.getAuthUrl();
 
