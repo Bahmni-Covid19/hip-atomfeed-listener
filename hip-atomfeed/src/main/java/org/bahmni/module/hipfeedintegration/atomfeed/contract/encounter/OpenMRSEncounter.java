@@ -1,6 +1,5 @@
 package org.bahmni.module.hipfeedintegration.atomfeed.contract.encounter;
 
-import org.bahmni.module.hipfeedintegration.model.OrderType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
@@ -44,16 +43,6 @@ public class OpenMRSEncounter {
         return orders;
     }
 
-    public List<OpenMRSOrder> getAcceptableTestOrders(List<OrderType> acceptableOrderTypes) {
-        List<OpenMRSOrder> acceptableNewOrders = new ArrayList<OpenMRSOrder>();
-        for(OpenMRSOrder openMRSOrder : this.orders) {
-            OrderType acceptableOrderType = findOrderType(acceptableOrderTypes, openMRSOrder.getOrderType());
-            if (acceptableOrderType != null) {
-                acceptableNewOrders.add(openMRSOrder);
-            }
-        }
-        return acceptableNewOrders;
-    }
 
     public void setOrders(List<OpenMRSOrder> orders) {
         this.orders = orders;
@@ -77,15 +66,6 @@ public class OpenMRSEncounter {
 
     public void addTestOrder(OpenMRSOrder order) {
         orders.add(order);
-    }
-
-    private OrderType findOrderType(List<OrderType> acceptableOrderTypes, String orderType) {
-        for (OrderType acceptableOrderType : acceptableOrderTypes) {
-            if (acceptableOrderType.getName().equals(orderType)) {
-                return acceptableOrderType;
-            }
-        }
-        return null;
     }
 
     public boolean hasOrders() {
