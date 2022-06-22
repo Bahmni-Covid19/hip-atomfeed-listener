@@ -1,5 +1,6 @@
 package org.bahmni.module.hipfeedintegration.services;
 
+import org.bahmni.module.hipfeedintegration.atomfeed.builders.OpenMRSEncounterBuilder;
 import org.bahmni.module.hipfeedintegration.atomfeed.contract.encounter.OpenMRSEncounter;
 import org.bahmni.module.hipfeedintegration.atomfeed.contract.patient.CareContext;
 import org.bahmni.module.hipfeedintegration.atomfeed.contract.patient.OpenMRSPatient;
@@ -77,9 +78,7 @@ public class HipFeedIntegrationServiceTest {
 
 
     OpenMRSEncounter buildEncounter() {
-        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounter();
-        openMRSEncounter.setPatientUuid(PATIENT_UUID);
-        return openMRSEncounter;
+        return new OpenMRSEncounterBuilder().withPatientUuid(PATIENT_UUID).build();
     }
 
     OpenMRSPatient buildPatient() {

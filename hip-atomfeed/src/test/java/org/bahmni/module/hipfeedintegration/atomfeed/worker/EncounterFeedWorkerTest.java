@@ -1,6 +1,10 @@
 package org.bahmni.module.hipfeedintegration.atomfeed.worker;
 
 import org.bahmni.module.hipfeedintegration.atomfeed.OpenMRSMapperBaseTest;
+import org.bahmni.module.hipfeedintegration.atomfeed.builders.OpenMRSConceptBuilder;
+import org.bahmni.module.hipfeedintegration.atomfeed.builders.OpenMRSConceptNameBuilder;
+import org.bahmni.module.hipfeedintegration.atomfeed.builders.OpenMRSEncounterBuilder;
+import org.bahmni.module.hipfeedintegration.atomfeed.builders.OpenMRSObsBuilder;
 import org.bahmni.module.hipfeedintegration.atomfeed.contract.encounter.OpenMRSConcept;
 import org.bahmni.module.hipfeedintegration.atomfeed.contract.encounter.OpenMRSConceptName;
 import org.bahmni.module.hipfeedintegration.atomfeed.contract.encounter.OpenMRSEncounter;
@@ -61,8 +65,8 @@ public class EncounterFeedWorkerTest extends OpenMRSMapperBaseTest {
     @Test
     public void shouldNotProcessEncounterIfItIsInIgnoredList() throws Exception {
         String content = "/openmrs/encounter/uuid1";
-        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounter();
-        openMRSEncounter.setEncounterType("Reg");
+        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounterBuilder().withEncounterType("Reg").build();
+
         when(openMRSService.getEncounter(content)).thenReturn(openMRSEncounter);
 
         encounterFeedWorker.process(new Event("event id", content));
@@ -73,15 +77,16 @@ public class EncounterFeedWorkerTest extends OpenMRSMapperBaseTest {
     @Test
     public void shouldProcessEncounterIfAtLeastOneObservationIsNotInIgnoredList() throws Exception {
         String content = "/openmrs/encounter/uuid1";
-        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounter();
-        OpenMRSConcept concept1 = new OpenMRSConcept("conceptUuid2",new OpenMRSConceptName("concept in ignored list"),false);
-        OpenMRSConcept concept2 = new OpenMRSConcept("conceptUuid1",new OpenMRSConceptName("concept not in ignored list"),false);
+
+        OpenMRSConcept concept1 = new OpenMRSConceptBuilder().withName(new OpenMRSConceptNameBuilder().withName("concept in ignored list").build()).build();
+        OpenMRSConcept concept2 = new OpenMRSConceptBuilder().withName(new OpenMRSConceptNameBuilder().withName("concept not in ignored list").build()).build();
+
 
         List<OpenMRSObs> observations = new ArrayList<OpenMRSObs>();
-        observations.add(new OpenMRSObs("uuid123",concept1, new ArrayList<OpenMRSObs>()));
-        observations.add(new OpenMRSObs("uuid162",concept2, new ArrayList<OpenMRSObs>()));
+        observations.add(new OpenMRSObsBuilder().withConcept(concept1).withGroupMembers(new ArrayList<OpenMRSObs>()).build());
+        observations.add(new OpenMRSObsBuilder().withConcept(concept2).withGroupMembers(new ArrayList<OpenMRSObs>()).build());
 
-        openMRSEncounter.setObservations(observations);
+        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounterBuilder().withObservation(observations).build();
 
         when(openMRSService.getEncounter(content)).thenReturn(openMRSEncounter);
 
@@ -93,19 +98,18 @@ public class EncounterFeedWorkerTest extends OpenMRSMapperBaseTest {
     @Test
     public void shouldProcessEncounterIfAtLeastOneFormFieldInObservationFormIsNotInIgnoredList() throws Exception {
         String content = "/openmrs/encounter/uuid1";
-        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounter();
-        OpenMRSConcept concept = new OpenMRSConcept("conceptUuid1",new OpenMRSConceptName("concept not in ignored list"),false);
-        OpenMRSConcept formField1 = new OpenMRSConcept("conceptUuid2",new OpenMRSConceptName("formField not in ignored list"),false);
-        OpenMRSConcept formField2 = new OpenMRSConcept("conceptUuid3",new OpenMRSConceptName("formField in ignored list"),false);
+
+        OpenMRSConcept concept = new OpenMRSConceptBuilder().withName(new OpenMRSConceptNameBuilder().withName("concept not in ignored list").build()).build();
+        OpenMRSConcept formField1 = new OpenMRSConceptBuilder().withName(new OpenMRSConceptNameBuilder().withName("formField not in ignored list").build()).build();
+        OpenMRSConcept formField2 = new OpenMRSConceptBuilder().withName(new OpenMRSConceptNameBuilder().withName("formField in ignored list").build()).build();
 
         List<OpenMRSObs> observations = new ArrayList<OpenMRSObs>();
         List<OpenMRSObs> formFields = new ArrayList<OpenMRSObs>();
-        formFields.add(new OpenMRSObs("uuid",formField1,new ArrayList<OpenMRSObs>()));
-        formFields.add(new OpenMRSObs("uuid",formField2,new ArrayList<OpenMRSObs>()));
+        formFields.add(new OpenMRSObsBuilder().withConcept(formField1).withGroupMembers(new ArrayList<OpenMRSObs>()).build());
+        formFields.add(new OpenMRSObsBuilder().withConcept(formField2).withGroupMembers(new ArrayList<OpenMRSObs>()).build());
+        observations.add(new OpenMRSObsBuilder().withConcept(concept).withGroupMembers(formFields).build());
 
-        observations.add(new OpenMRSObs("uuid123",concept, formFields));
-
-        openMRSEncounter.setObservations(observations);
+        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounterBuilder().withObservation(observations).build();
 
         when(openMRSService.getEncounter(content)).thenReturn(openMRSEncounter);
 
@@ -117,19 +121,17 @@ public class EncounterFeedWorkerTest extends OpenMRSMapperBaseTest {
     @Test
     public void shouldNotProcessEncounterIfAllFormFieldInObservationFormIsInIgnoredListButConceptsIsNotInIgnoredList() throws Exception {
         String content = "/openmrs/encounter/uuid1";
-        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounter();
-        OpenMRSConcept concept = new OpenMRSConcept("conceptUuid1",new OpenMRSConceptName("concept not in ignored list"),false);
-        OpenMRSConcept formField1 = new OpenMRSConcept("conceptUuid2",new OpenMRSConceptName("formField in ignored list"),false);
-        OpenMRSConcept formField2 = new OpenMRSConcept("conceptUuid3",new OpenMRSConceptName("formField in ignored list"),false);
+        OpenMRSConcept concept = new OpenMRSConceptBuilder().withName(new OpenMRSConceptNameBuilder().withName("concept not in ignored list").build()).build();
+        OpenMRSConcept formField1 = new OpenMRSConceptBuilder().withName(new OpenMRSConceptNameBuilder().withName("formField in ignored list").build()).build();
+        OpenMRSConcept formField2 = new OpenMRSConceptBuilder().withName(new OpenMRSConceptNameBuilder().withName("formField in ignored list").build()).build();
 
         List<OpenMRSObs> observations = new ArrayList<OpenMRSObs>();
         List<OpenMRSObs> formFields = new ArrayList<OpenMRSObs>();
-        formFields.add(new OpenMRSObs("uuid",formField1,new ArrayList<OpenMRSObs>()));
-        formFields.add(new OpenMRSObs("uuid",formField2,new ArrayList<OpenMRSObs>()));
+        formFields.add(new OpenMRSObsBuilder().withConcept(formField1).withGroupMembers(new ArrayList<OpenMRSObs>()).build());
+        formFields.add(new OpenMRSObsBuilder().withConcept(formField2).withGroupMembers(new ArrayList<OpenMRSObs>()).build());
+        observations.add(new OpenMRSObsBuilder().withConcept(concept).withGroupMembers(formFields).build());
 
-        observations.add(new OpenMRSObs("uuid123",concept, formFields));
-
-        openMRSEncounter.setObservations(observations);
+        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounterBuilder().withObservation(observations).build();
 
         when(openMRSService.getEncounter(content)).thenReturn(openMRSEncounter);
 
@@ -150,8 +152,7 @@ public class EncounterFeedWorkerTest extends OpenMRSMapperBaseTest {
     public void shouldFilterOutBedAssignmentEventsBeforeProcessing() throws Exception {
         String content = "/openmrs/encounter/uuid1";
         OpenMRSOrder order = new OpenMRSOrder();
-        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounter();
-        openMRSEncounter.addTestOrder(order);
+        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounterBuilder().withTestOrder(order).build();
 
         encounterFeedWorker.process(new Event("event id", content, "Bed-Assignment"));
 

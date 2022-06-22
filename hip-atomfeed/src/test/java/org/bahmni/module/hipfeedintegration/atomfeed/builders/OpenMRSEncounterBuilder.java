@@ -30,6 +30,17 @@ public class OpenMRSEncounterBuilder {
         openMRSEncounter.setProviders(Arrays.asList(openMRSProvider));
         return this;
     }
+
+    public OpenMRSEncounterBuilder withEncounterType(String encounterType){
+        openMRSEncounter.setEncounterType(encounterType);
+        return this;
+    }
+
+    public OpenMRSEncounterBuilder withObservation(List<OpenMRSObs> obs){
+        openMRSEncounter.setObservations(obs);
+        return this;
+    }
+
     public OpenMRSEncounter build() {
         return openMRSEncounter;
     }

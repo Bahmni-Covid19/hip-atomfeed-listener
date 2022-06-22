@@ -2,6 +2,7 @@ package org.bahmni.module.hipfeedintegration.integrationtest;
 
 import org.bahmni.module.HipFeedListener;
 import org.bahmni.module.hipfeedintegration.atomfeed.OpenMRSMapperBaseTest;
+import org.bahmni.module.hipfeedintegration.atomfeed.builders.OpenMRSEncounterBuilder;
 import org.bahmni.module.hipfeedintegration.atomfeed.contract.encounter.OpenMRSEncounter;
 import org.bahmni.module.hipfeedintegration.atomfeed.contract.patient.OpenMRSPatient;
 import org.bahmni.module.hipfeedintegration.atomfeed.worker.EncounterFeedWorker;
@@ -65,9 +66,7 @@ public class EncounterFeedWorkerIT extends OpenMRSMapperBaseTest{
     @Test
     public void shouldProcessEncounter() throws IOException{
 
-        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounter();
-        openMRSEncounter.setEncounterType("Consultation");
-        openMRSEncounter.setPatientUuid(PATIENT_UUID);
+        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounterBuilder().withPatientUuid(PATIENT_UUID).withEncounterType("Consultation").build();
         when(openMRSService.getEncounter("/encounter/1")).thenReturn(openMRSEncounter);
 
         encounterFeedWorker.process(new Event("event id", "/encounter/1"));
@@ -79,9 +78,8 @@ public class EncounterFeedWorkerIT extends OpenMRSMapperBaseTest{
     @Test
     public void shouldNotProcessEncounter() throws IOException {
 
-        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounter();
-        openMRSEncounter.setEncounterType("Reg");
-        openMRSEncounter.setPatientUuid(PATIENT_UUID);
+        OpenMRSEncounter openMRSEncounter = new OpenMRSEncounterBuilder().withPatientUuid(PATIENT_UUID).withEncounterType("Reg").build();
+
         when(openMRSService.getEncounter("/encounter/1")).thenReturn(openMRSEncounter);
 
         encounterFeedWorker.process(new Event("event id", "/encounter/1"));
