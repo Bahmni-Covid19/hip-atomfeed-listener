@@ -45,13 +45,11 @@ public class HipFeedIntegrationService {
     private void callNewContext(OpenMRSPatient patient, OpenMRSPatient patientCareContext) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(patientCareContext.getCareContexts());
-        System.out.println(jsonString);
 
         String jsonInputString = "{\"patientReferenceNumber\": \"" + patientCareContext.getPatientReferenceNumber() +
                 "\",\n \"patientName\":\"" + patient.getGivenName() +
                 "\",\n\"careContexts\" : " + jsonString +
                 ",\n\"healthId\" : \"" + patientCareContext.getHealthId() + "\"}";
-        System.out.println(jsonInputString);
 
        hipService.callNewContext(jsonInputString);
     }
@@ -61,7 +59,6 @@ public class HipFeedIntegrationService {
 
         String jsonInputString = "{\"phoneNo\": \"" + patient.getPhoneNumber() + "\",\n \"receiverName\":\"" + patient.getGivenName() + "\",\n\"careContextInfo\" : \"" + patientCareContext.getCareContextInfo() + "\"}";
 
-        System.out.println(jsonInputString);
         hipService.smsNotify(jsonInputString);
     }
 

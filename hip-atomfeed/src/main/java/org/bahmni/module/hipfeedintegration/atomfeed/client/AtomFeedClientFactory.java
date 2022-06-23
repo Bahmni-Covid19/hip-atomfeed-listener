@@ -21,19 +21,18 @@ public class AtomFeedClientFactory {
     @Autowired
     private AtomFeedHibernateTransactionManager transactionManager;
 
-    public FeedClient get(String feedName, EncounterFeedWorker encounterFeedWorker) {
+    public FeedClient get(EncounterFeedWorker encounterFeedWorker) {
         HttpClient authenticatedWebClient = WebClientFactory.getClient();
         org.bahmni.webclients.ConnectionDetails connectionDetails = ConnectionDetails.get();
         String authUri = connectionDetails.getAuthUrl();
         ClientCookies cookies = getCookies(authenticatedWebClient, authUri);
 
-        return getFeedClient(AtomFeedProperties.getInstance(),
-                feedName, encounterFeedWorker, cookies);
+        return getFeedClient(AtomFeedProperties.getInstance(), encounterFeedWorker, cookies);
     }
 
-    private FeedClient getFeedClient(AtomFeedProperties atomFeedProperties, String feedName,
+    private FeedClient getFeedClient(AtomFeedProperties atomFeedProperties,
                                         EventWorker eventWorker, ClientCookies cookies) {
-        String uri = atomFeedProperties.getProperty(feedName);
+        String uri = atomFeedProperties.getOpenmrsFeedUrl();
         try {
 
             org.ict4h.atomfeed.client.AtomFeedProperties atomFeedClientProperties = createAtomFeedClientProperties(atomFeedProperties);

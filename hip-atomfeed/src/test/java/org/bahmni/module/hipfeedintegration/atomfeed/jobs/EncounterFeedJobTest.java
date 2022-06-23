@@ -14,7 +14,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class EncounterFeedJobTest {
-    private static final String OPENMRS_ENCOUNTER_FEED_NAME = "openmrs.encounter.feed.uri";
 
     @Mock
     EncounterFeedWorker encounterFeedWorker;
@@ -35,7 +34,7 @@ public class EncounterFeedJobTest {
 
     @Test
     public void shouldProcessTheEvent() throws Exception {
-        when(atomFeedClientFactory.get(OPENMRS_ENCOUNTER_FEED_NAME, encounterFeedWorker)).thenReturn(atomFeedClient);
+        when(atomFeedClientFactory.get(encounterFeedWorker)).thenReturn(atomFeedClient);
 
         encounterFeedJob.process();
 

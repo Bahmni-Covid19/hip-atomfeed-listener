@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 @Component("openMRSEncounterFeedJob")
 @ConditionalOnExpression("'${enable.scheduling}'=='true'")
 public class EncounterFeedJob implements FeedJob {
-    private static final String OPENMRS_ENCOUNTER_FEED_NAME = "openmrs.encounter.feed.uri";
     private final Logger logger = LoggerFactory.getLogger(EncounterFeedJob.class);
     private FeedClient atomFeedClient;
     private EncounterFeedWorker encounterFeedWorker;
@@ -30,9 +29,9 @@ public class EncounterFeedJob implements FeedJob {
     }
 
     @Override
-    public void process() throws InterruptedException {
+    public void process() {
         if(atomFeedClient == null){
-            atomFeedClient = atomFeedClientFactory.get(OPENMRS_ENCOUNTER_FEED_NAME, encounterFeedWorker);
+            atomFeedClient = atomFeedClientFactory.get(encounterFeedWorker);
         }
         logger.info("Processing feed...");
         atomFeedClient.processEvents();
