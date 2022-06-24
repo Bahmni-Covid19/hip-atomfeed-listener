@@ -16,7 +16,6 @@
     </parent>
 
     <modules>
-        <module>vagrant-deploy</module>
         <module>hip-atomfeed</module>
     </modules>
     <build>

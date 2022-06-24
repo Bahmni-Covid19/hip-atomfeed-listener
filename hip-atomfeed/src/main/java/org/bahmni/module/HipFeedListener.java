@@ -31,7 +31,7 @@ public class HipFeedListener extends SpringBootServletInitializer {
 
     @RequestMapping("/")
     String home() {
-        return "PACS Integration module is up and running.";
+        return "HIP-feed-listener module is up and running.";
     }
 
     public static void main(String[] args) throws Exception {
