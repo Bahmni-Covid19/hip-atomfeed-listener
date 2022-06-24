@@ -2,12 +2,25 @@
 
 This is a forked repo from Bahmni/pacs-integration and was refactored for Hip initiated linking and notifying user on new care-context generation (both of them are ABDM features)
 
-#to-do
-1) refactor code that is not required.
-2) filter out the encounter type to be listened on.
 
+#### Pre-requisite
+- Java 1.8
 
-#####< IMPORTANT >
+### To build a docker image,
+
+``mvn clean compile jib:dockerBuild``
+
+Note: you can change the image name in pom.xml
+
+### To start the hip-atomfeed and db container,
+
+``docker-compose up -d``
+
+By default, hip-atomfeed uses db container as its database. You can also connect to different database containers by specifying its url and credentials in environment variables
+
+Note: By default, openmrs urls will be taken from hip-atomfeed/src/main/resources/atomfeed.properties unless OPENMRS_URL and OPENMRS_ENCOUNTER_FEED_URL are not specified in environment variables.
+
+####< IMPORTANT >
 
 Atomfeed set the markers to first page if you don't set it. 
 
