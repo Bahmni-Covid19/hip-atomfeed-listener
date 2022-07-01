@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.newCareContext;
+import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.smsNotify;
 import static org.bahmni.module.hipfeedintegration.services.OpenMRSService.getURLPrefix;
 
 @Component
@@ -20,8 +22,6 @@ public class HipService {
 
     private static final Logger logger = LoggerFactory.getLogger(EncounterFeedWorker.class);
 
-    String newCareContext = "/hiprovider/v0.5/hip/new-carecontext";
-    String smsNotify = "/hiprovider/v0.5/hip/patients/sms/notify";
 
     public String callNewContext(String body) throws IOException {
         CloseableHttpClient client = HttpClients.createDefault();

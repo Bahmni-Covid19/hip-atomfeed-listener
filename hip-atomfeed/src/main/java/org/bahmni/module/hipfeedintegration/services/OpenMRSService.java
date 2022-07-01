@@ -21,12 +21,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.globalPropertyurl;
+import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.newCareContextUrl;
+import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.patientRestUrl;
+
 @Component
 public class OpenMRSService {
-
-    String patientRestUrl = "/openmrs/ws/rest/v1/patient/";
-    String newCareContextUrl = "/openmrs/ws/rest/v1/hip/careContext/new?patientUuid=";
-    String globalPropertyurl = "/openmrs/ws/rest/v1/systemsetting/";
 
     public OpenMRSEncounter getEncounter(String encounterUrl) throws IOException {
         HttpClient webClient = WebClientFactory.getClient();

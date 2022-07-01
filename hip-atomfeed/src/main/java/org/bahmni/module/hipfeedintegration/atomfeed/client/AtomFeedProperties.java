@@ -3,6 +3,9 @@ package org.bahmni.module.hipfeedintegration.atomfeed.client;
 import java.io.InputStream;
 import java.util.Properties;
 
+import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.OPENMRS_ENCOUNTER_URL;
+import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.OPENMRS_URL;
+
 public class AtomFeedProperties {
 
 
@@ -80,16 +83,16 @@ public class AtomFeedProperties {
 
     public String getOpenmrsBaseUrl() {
         String url = getProperty(AUTH_URI);
-        if(System.getenv("OPENMRS_URL") != null) {
-            url = System.getenv("OPENMRS_URL");
+        if(System.getenv(OPENMRS_URL) != null) {
+            url = System.getenv(OPENMRS_URL);
         }
         return url;
     }
 
     public String getOpenmrsFeedUrl() {
         String feedName = getProperty(OPENMRS_ENCOUNTER_FEED_URL);
-        if(System.getenv("OPENMRS_ENCOUNTER_FEED_URL") != null) {
-            feedName = System.getenv("OPENMRS_ENCOUNTER_FEED_URL");
+        if(System.getenv(OPENMRS_ENCOUNTER_URL) != null) {
+            feedName = System.getenv(OPENMRS_ENCOUNTER_URL);
         }
         return feedName;
     }

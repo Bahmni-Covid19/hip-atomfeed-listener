@@ -89,14 +89,6 @@ public class OpenMRSOrder {
         this.orderNumber = orderNumber;
     }
 
-    public OpenMRSConceptMapping getPacsConceptSource() {
-        for (OpenMRSConceptMapping mapping : concept.getMappings()){
-            if(mapping.getSource().equals(Constants.PACS_CONCEPT_SOURCE_NAME))
-                return mapping;
-        }
-        return null;
-    }
-
     public String getAction() {
         return action;
     }
