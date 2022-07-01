@@ -33,10 +33,6 @@ public class HipFeedIntegrationService {
         OpenMRSPatient patient = openMRSService.getPatient(openMRSEncounter.getPatientUuid());
         OpenMRSPatient patientCareContext = openMRSService.getCareContext(openMRSEncounter.getPatientUuid());
 
-        logger.warn("Name :" + patient.getGivenName());
-        logger.warn("phno :" + patient.getPhoneNumber());
-        logger.warn("careContext " + patientCareContext.getHealthId() + patientCareContext.getCareContexts() + patientCareContext.getPatientReferenceNumber());
-
         callNewContext(patient, patientCareContext);
         callSmsNotify(patient,patientCareContext);
 

@@ -80,7 +80,6 @@ public class OpenMRSPatientMapper {
             careContext.setDisplay(patientCareContext.path(CARE_CONTEXT_NAME).asText().replaceAll("[\\W&&[^-]]", " "));
             careContext.setType(patientCareContext.path(CARE_CONTEXT_TYPE).asText().replaceAll("[\\W&&[^-]]", " "));
             careContext.setReferenceNumber(patientCareContext.path(CARE_CONTEXT_REFERENCE).asInt());
-            logger.warn("careContext" + careContext.getDisplay() + careContext.getType() + careContext.getReferenceNumber());
             careContexts.add(careContext);
         }
         patient.setCareContexts(careContexts);

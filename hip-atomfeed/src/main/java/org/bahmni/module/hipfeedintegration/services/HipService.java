@@ -29,6 +29,7 @@ public class HipService {
         CloseableHttpResponse response = client.execute(httpPost);
 
         String statusCode = String.valueOf(response.getStatusLine().getStatusCode());
+        logger.warn("Calling new carecontext, statusCode: " + statusCode);
         client.close();
 
         return statusCode;
@@ -40,6 +41,7 @@ public class HipService {
         CloseableHttpResponse response = client.execute(httpPost);
 
         String statusCode = String.valueOf(response.getStatusLine().getStatusCode());
+        logger.warn("sms notify , statusCode: " + statusCode);
         client.close();
 
         return statusCode;
@@ -53,12 +55,6 @@ public class HipService {
         httpPost.setEntity(entity);
         httpPost.setHeader("Content-Type", "application/json");
         httpPost.setHeader("CORRELATION_ID", null);
-        logger.warn("===========================request begin================================================");
-        logger.warn("URI         : {}", httpPost.getURI());
-        logger.warn("Method      : {}", httpPost.getMethod());
-        logger.warn("Headers     : {}", httpPost.getAllHeaders());
-        logger.warn("Request body: {}", requestBody);
-        logger.warn("==========================request end================================================");
         return httpPost;
     }
 }
