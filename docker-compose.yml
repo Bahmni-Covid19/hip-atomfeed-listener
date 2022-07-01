@@ -4,9 +4,8 @@ services:
     container_name: hip-atomfeed-listener
     image: bahmniindiadistro/hip-atomfeed
     environment:
-      - PGPASSWORD=welcome
       - DATABASE_URL=jdbc:postgresql://db:5432/
-      - DATABASE_NAME=bahmni_pacs
+      - DATABASE_NAME=hip-atomfeed-listener
       - DATABASE_USERNAME=postgres
       - DATABASE_PASSWORD=welcome
       - OPENMRS_URL=https://abdm.bahmni-covid19.in/openmrs/ws/rest/v1/session
