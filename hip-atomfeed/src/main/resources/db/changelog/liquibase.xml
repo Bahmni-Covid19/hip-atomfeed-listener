@@ -1,0 +1,72 @@
+<databaseChangeLog logicalFilePath="liquibase.xml"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <property name="schemaName" value="public"/>
+    <include file="classpath:sql/db_migrations.xml"/>
+
+    <changeSet id="103" author="ict4h">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="failed_events" columnName="error_hash_code"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="failed_events" schemaName="public">
+            <column name="error_hash_code" type="int"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="ict4h" id="104">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="event_records_offset_marker"/>
+            </not>
+        </preConditions>
+        <createTable tableName="event_records_offset_marker" schemaName="public">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="event_id" type="int"/>
+            <column name="event_count" type="int"/>
+            <column name="category" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="105" author="ict4h">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="failed_events" columnName="title"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="failed_events" schemaName="public">
+            <column name="title" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="HIP-feed-listener-202206241213" author="Kavitha, Sameera">
+        <comment>Creating quartz cron scheduler Table</comment>
+        <createTable tableName="quartz_cron_scheduler">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="boolean" defaultValue="true">
+            </column>
+            <column name="cron_statement" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_delay" type="int">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="HIP-feed-listener-202206241214" author="Kavitha, Sameera">
+        <comment>Adding schedulers for openmrs encounter</comment>
+        <sql>
+            insert into quartz_cron_scheduler (name, cron_statement, start_delay, enabled) values ('openMRSEncounterFeedJob', '0/15 * * * * ?', 0, true);
+            insert into quartz_cron_scheduler (name, cron_statement, start_delay, enabled) values ('openMRSEncounterFailedFeedJob', '0/15 * * * * ?', 0, true);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.bahmni</groupId>
-    <artifactId>pacs-integration</artifactId>
+    <artifactId>hip-atomfeed-listener</artifactId>
     <version>0.94-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -16,8 +16,7 @@
     </parent>
 
     <modules>
-        <module>vagrant-deploy</module>
-        <module>pacs-integration-webapp</module>
+        <module>hip-atomfeed</module>
     </modules>
     <build>
         <extensions>
@@ -27,6 +26,18 @@
                 <version>1.2.1</version>
             </extension>
         </extensions>
+        <plugins>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>2.4.0</version>
+                <configuration>
+                    <to>
+                        <image>bahmniindiadistro/hip-atomfeed</image>
+                    </to>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
     <distributionManagement>

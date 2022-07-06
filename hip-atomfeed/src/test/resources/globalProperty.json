@@ -1,0 +1,8 @@
+{"uuid":"f9461322-9800-4933-abc8-876baef66047",
+  "property" :"abdm.encounterTypesToBeIgnored",
+  "value" : "REG, ADMISSION, TRANSFER, VALIDATION NOTES",
+  "description":null,
+  "display":"Abdm - Concepts Types To Be Ignored = REG,ADMISSION,TRANSFER,VALIDATION NOTES",
+  "links":[{"rel":"self","uri":"http://openmrs:8080/openmrs/ws/rest/v1/systemsetting/f9461322-9800-4933-abc8-876baef66047"},{"rel":"full","uri":"http://openmrs:8080/openmrs/ws/rest/v1/systemsetting/f9461322-9800-4933-abc8-876baef66047?v=full"}],
+  "resourceVersion":"1.9"
+}
