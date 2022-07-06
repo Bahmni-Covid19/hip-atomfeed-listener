@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-config
+data:
+  DATABASE_URL: "{{ .Values.config.DATABASE_URL }}"
+  DATABASE_NAME: "{{ .Values.config.DATABASE_NAME }}"
+  DATABASE_USERNAME: "{{ .Values.config.DATABASE_USERNAME }}"
+  DATABASE_PASSWORD: "{{ .Values.config.DATABASE_PASSWORD }}"
+  OPENMRS_URL: "{{ .Values.config.OPENMRS_URL }}"
+  OPENMRS_ENCOUNTER_FEED_URL: "{{ .Values.config.OPENMRS_ENCOUNTER_FEED_URL }}"
