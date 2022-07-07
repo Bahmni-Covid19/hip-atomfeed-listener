@@ -32,8 +32,8 @@ import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.IDE
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.MIDDLE_NAME;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PATIENT_REFERENCE_NUMBER;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PERSON;
+import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PHONE_NUMBER;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PREFERRED_NAME;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PRIMARY_CONTACT;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.VALUE;
 
 
@@ -59,7 +59,7 @@ public class OpenMRSPatientMapper {
 
         JsonNode personAttributes = jsonNode.path(PERSON).path(ATTRIBUTES);
         for(JsonNode attributes : personAttributes){
-            if(attributes.path(ATTRIBUTE_TYPE).path(DISPLAY).asText().replaceAll("[\\W&&[^-]]", " ").equals(PRIMARY_CONTACT)){
+            if(attributes.path(ATTRIBUTE_TYPE).path(DISPLAY).asText().replaceAll("[\\W&&[^-]]", " ").equals(PHONE_NUMBER)){
                 patient.setPhoneNumber(attributes.path(VALUE).asText().replaceAll("[\\W&&[^-]]", " "));
             }
         }

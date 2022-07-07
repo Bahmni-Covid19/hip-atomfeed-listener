@@ -15,7 +15,7 @@ public class Constants {
     public static final String FAMILY_NAME = "familyName";
     public static final String MIDDLE_NAME = "middleName";
     public static final String GENDER = "gender";
-    public static final String PRIMARY_CONTACT = "primaryContact";
+    public static final String PHONE_NUMBER = "phoneNumber";
     public static final String BIRTH_DATE = "birthdate";
     public static final String ATTRIBUTES = "attributes";
     public static final String ATTRIBUTE_TYPE = "attributeType";
