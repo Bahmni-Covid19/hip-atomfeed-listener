@@ -25,7 +25,7 @@ public class HipService {
 
     public String callNewContext(String body) throws IOException {
         CloseableHttpClient client = HttpClients.createDefault();
-        HttpPost httpPost = createRequest(getURLPrefix() + newCareContext,body);
+        HttpPost httpPost = createRequest( newCareContext,body);
         CloseableHttpResponse response = client.execute(httpPost);
 
         String statusCode = String.valueOf(response.getStatusLine().getStatusCode());
@@ -37,7 +37,7 @@ public class HipService {
 
     public String smsNotify(String body) throws IOException {
         CloseableHttpClient client = HttpClients.createDefault();
-        HttpPost httpPost = createRequest(getURLPrefix() + smsNotify,body);
+        HttpPost httpPost = createRequest( smsNotify,body);
         CloseableHttpResponse response = client.execute(httpPost);
 
         String statusCode = String.valueOf(response.getStatusLine().getStatusCode());

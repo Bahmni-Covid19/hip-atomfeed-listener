@@ -15,10 +15,10 @@ service:
 
 config:
   DATABASE_URL: "jdbc:postgresql://bahmni-dev-postgresql:5432/"
-  DATABASE_NAME: "hip-atomfeed-listener"
+  DATABASE_NAME: "hip_atomfeed_listener"
   DATABASE_USERNAME: "postgres"
   DATABASE_PASSWORD: "welcome"
-  OPENMRS_URL: "http://bahmni-openmrs:8080/openmrs"
+  OPENMRS_URL: "http://bahmni-openmrs:8080/openmrs/ws/rest/v1/session"
   OPENMRS_ENCOUNTER_FEED_URL: "http://bahmni-openmrs:8080/openmrs/ws/atomfeed/encounter/recent"
 
 
