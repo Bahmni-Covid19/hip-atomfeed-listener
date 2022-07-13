@@ -20,6 +20,7 @@ config:
   DATABASE_PASSWORD: "welcome"
   OPENMRS_URL: "http://bahmni-openmrs:8080/openmrs/ws/rest/v1/session"
   OPENMRS_ENCOUNTER_FEED_URL: "http://bahmni-openmrs:8080/openmrs/ws/atomfeed/encounter/recent"
+  HIP_URL: "http://hip:8000"
 
 
 autoscaling:

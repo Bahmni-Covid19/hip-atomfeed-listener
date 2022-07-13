@@ -9,3 +9,4 @@ data:
   DATABASE_PASSWORD: "{{ .Values.config.DATABASE_PASSWORD }}"
   OPENMRS_URL: "{{ .Values.config.OPENMRS_URL }}"
   OPENMRS_ENCOUNTER_FEED_URL: "{{ .Values.config.OPENMRS_ENCOUNTER_FEED_URL }}"
+  HIP_URL: "{{ .Values.config.HIP_URL }}"
