@@ -10,6 +10,7 @@ services:
       - DATABASE_PASSWORD=welcome
       - OPENMRS_URL=https://abdm.bahmni-covid19.in/openmrs/ws/rest/v1/session
       - OPENMRS_ENCOUNTER_FEED_URL=https://abdm.bahmni-covid19.in/openmrs/ws/atomfeed/encounter/recent
+      - HIP_URL=https://abdm.bahmni-covid19.in/hiprovider
   db:
     container_name: db
     image: postgres

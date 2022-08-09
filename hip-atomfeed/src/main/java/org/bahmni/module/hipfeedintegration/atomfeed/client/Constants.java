@@ -31,7 +31,7 @@ public class Constants {
     public static final String patientRestUrl = "/openmrs/ws/rest/v1/patient/";
     public static final String newCareContextUrl = "/openmrs/ws/rest/v1/hip/careContext/new?patientUuid=";
     public static final String globalPropertyurl = "/openmrs/ws/rest/v1/systemsetting/";
-    public static final String newCareContext = "/hiprovider/v0.5/hip/new-carecontext";
-    public static final String smsNotify = "/hiprovider/v0.5/hip/patients/sms/notify";
+    public static final String newCareContext = "/v0.5/hip/new-carecontext";
+    public static final String smsNotify = "/v0.5/hip/patients/sms/notify";
 
 }
