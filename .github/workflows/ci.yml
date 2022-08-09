@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - BAH-1956
 
 jobs:
   build:
