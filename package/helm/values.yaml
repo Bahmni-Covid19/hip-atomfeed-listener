@@ -18,8 +18,8 @@ config:
   DATABASE_NAME: "hip_atomfeed_listener"
   DATABASE_USERNAME: "postgres"
   DATABASE_PASSWORD: "welcome"
-  OPENMRS_URL: "http://bahmni-openmrs:8080/openmrs/ws/rest/v1/session"
-  OPENMRS_ENCOUNTER_FEED_URL: "http://bahmni-openmrs:8080/openmrs/ws/atomfeed/encounter/recent"
+  OPENMRS_URL: "http://openmrs:8080/openmrs/ws/rest/v1/session"
+  OPENMRS_ENCOUNTER_FEED_URL: "http://openmrs:8080/openmrs/ws/atomfeed/encounter/recent"
   HIP_URL: "http://hip:8000"
 
 
