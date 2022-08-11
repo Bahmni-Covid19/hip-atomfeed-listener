@@ -29,7 +29,7 @@ public class HipService {
         CloseableHttpResponse response = client.execute(httpPost);
 
         String statusCode = String.valueOf(response.getStatusLine().getStatusCode());
-        logger.warn("Calling new carecontext, statusCode: " + statusCode);
+        logger.warn("Calling new carecontext " + httpPost.getURI().getPath() + "  with "+ body + " returns statusCode: " + statusCode);
         client.close();
 
         return statusCode;
@@ -41,7 +41,7 @@ public class HipService {
         CloseableHttpResponse response = client.execute(httpPost);
 
         String statusCode = String.valueOf(response.getStatusLine().getStatusCode());
-        logger.warn("sms notify , statusCode: " + statusCode);
+        logger.warn("calling sms notify " + httpPost.getURI().getPath() + " with " + body +  " returns statusCode: " + statusCode);
         client.close();
 
         return statusCode;
