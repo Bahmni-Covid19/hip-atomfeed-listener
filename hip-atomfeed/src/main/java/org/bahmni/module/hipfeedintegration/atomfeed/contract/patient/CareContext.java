@@ -3,13 +3,13 @@ package org.bahmni.module.hipfeedintegration.atomfeed.contract.patient;
 public class CareContext {
     private String Type;
     private String Display;
-    private Integer ReferenceNumber;
+    private String ReferenceNumber;
 
-    public Integer getReferenceNumber() {
+    public String getReferenceNumber() {
         return ReferenceNumber;
     }
 
-    public void setReferenceNumber(Integer referenceNumber) {
+    public void setReferenceNumber(String referenceNumber) {
         this.ReferenceNumber = referenceNumber;
     }
 
