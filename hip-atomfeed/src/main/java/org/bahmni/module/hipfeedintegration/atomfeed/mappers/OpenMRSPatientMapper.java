@@ -77,9 +77,9 @@ public class OpenMRSPatientMapper {
         JsonNode patientCareContexts = jsonNode.path(CARE_CONTEXTS);
         for(JsonNode patientCareContext : patientCareContexts){
             CareContext careContext = new CareContext();
-            careContext.setDisplay(patientCareContext.path(CARE_CONTEXT_NAME).asText().replaceAll("[\\W&&[^-]]", " "));
-            careContext.setType(patientCareContext.path(CARE_CONTEXT_TYPE).asText().replaceAll("[\\W&&[^-]]", " "));
-            careContext.setReferenceNumber(patientCareContext.path(CARE_CONTEXT_REFERENCE).asInt());
+            careContext.setDisplay("Consultation/meeting with " + patientCareContext.path(CARE_CONTEXT_REFERENCE).asText());
+            careContext.setType(patientCareContext.path(CARE_CONTEXT_TYPE).asText());
+            careContext.setReferenceNumber(patientCareContext.path(CARE_CONTEXT_NAME).asText());
             careContexts.add(careContext);
         }
         patient.setCareContexts(careContexts);

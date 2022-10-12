@@ -44,7 +44,7 @@ public class OpenMRSPatient {
     }
 
     public String getCareContextInfo(){
-        return (careContexts != null && careContexts.size() > 0) ? careContexts.get(0).getDisplay() + " record" : null;
+        return (careContexts != null && careContexts.size() > 0) ? careContexts.get(0).getReferenceNumber() + " record" : null;
     }
 
     public void setGivenName(String givenName) {
