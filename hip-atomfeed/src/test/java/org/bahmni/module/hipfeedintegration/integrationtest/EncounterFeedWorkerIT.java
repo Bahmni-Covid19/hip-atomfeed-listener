@@ -12,12 +12,10 @@ import org.bahmni.module.hipfeedintegration.services.OpenMRSService;
 import org.ict4h.atomfeed.client.domain.Event;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +29,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = HipFeedListener.class)
 public class EncounterFeedWorkerIT extends OpenMRSMapperBaseTest{
 
