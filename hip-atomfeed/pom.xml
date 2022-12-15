@@ -17,6 +17,9 @@
                 <version>2.18.1</version>
                 <configuration>
                     <argLine>-Xmx512m -XX:MaxPermSize=512m</argLine>
+                    <classpathDependencyExcludes>
+                        <classpathDependencyExclude>org.apache.logging.log4j:log4j-slf4j-impl</classpathDependencyExclude>
+                    </classpathDependencyExcludes>
                 </configuration>
             </plugin>
         </plugins>
@@ -26,9 +29,23 @@
     <artifactId>hip-atomfeed</artifactId>
 
     <properties>
-        <atomfeed.version>1.9.4</atomfeed.version>
+        <atomfeed.version>1.10.1</atomfeed.version>
         <hapi-base.version>2.2</hapi-base.version>
         <spring.profiles.active>local,no-liquibase</spring.profiles.active>
+        <quartz.version>2.2.1</quartz.version>
+        <postgresql.version>42.5.0</postgresql.version>
+        <hsqldb.version>2.7.1</hsqldb.version>
+        <web-clients.version>0.94-SNAPSHOT</web-clients.version>
+        <httpclient.version>4.5</httpclient.version>
+        <commons-io.version>2.7</commons-io.version>
+        <liquibase.version>4.9.0</liquibase.version>
+        <liquibase-slf4j.version>1.0.0</liquibase-slf4j.version>
+        <junit.version>4.9</junit.version>
+        <apache-commons-lang3.version>3.1</apache-commons-lang3.version>
+        <commons-lang.version>2.6</commons-lang.version>
+        <powermock.version>1.6.2</powermock.version>
+        <log4j.version>2.17.2</log4j.version>
+        <slf4j.version>1.7.19</slf4j.version>
     </properties>
 
     <dependencies>
@@ -40,11 +57,20 @@
                     <groupId>ch.qos.logback</groupId>
                     <artifactId>logback-classic</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -57,18 +83,19 @@
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
-            <version>2.3.2</version>
+            <version>${quartz.version}</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.3.3</version>
+            <version>${postgresql.version}</version>
             <scope>runtime</scope>
         </dependency>
 
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
+            <version>${hsqldb.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -85,7 +112,7 @@
         <dependency>
             <groupId>org.bahmni.module</groupId>
             <artifactId>web-clients</artifactId>
-            <version>0.94-SNAPSHOT</version>
+            <version>${web-clients.version}</version>
         </dependency>
         <dependency>
             <groupId>org.ict4h</groupId>
@@ -97,49 +124,32 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5</version>
+            <version>${httpclient.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.9.10.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.9.10</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>2.9.10</version>
+            <version>${commons-io.version}</version>
         </dependency>
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>3.4.0</version>
+            <version>${liquibase.version}</version>
         </dependency>
         <dependency>
             <groupId>com.mattbertolini</groupId>
             <artifactId>liquibase-slf4j</artifactId>
-            <version>1.0.0</version>
+            <version>${liquibase-slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.liquibase.ext</groupId>
             <artifactId>liquibase-postgresql</artifactId>
-            <version>3.0</version>
+            <version>${liquibase.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.9</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -151,18 +161,12 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
+            <version>${apache-commons-lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>4.1.5.RELEASE</version>
-            <scope>test</scope>
+            <version>${commons-lang.version}</version>
         </dependency>
         <dependency>
             <groupId>ca.uhn.hapi</groupId>
@@ -177,34 +181,34 @@
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-api-mockito</artifactId>
-            <version>1.6.2</version>
+            <version>${powermock.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-module-junit4</artifactId>
-            <version>1.6.2</version>
+            <version>${powermock.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.6.1</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.6.1</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.19</version>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.5</version>
+            <version>${log4j.version}</version>
         </dependency>
     </dependencies>
 </project>

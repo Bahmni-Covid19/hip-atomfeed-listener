@@ -1,7 +1,6 @@
 package org.bahmni.module.hipfeedintegration.atomfeed.client;
 
-import org.hibernate.Session;
-import org.hibernate.internal.SessionImpl;
+import org.hibernate.engine.spi.SessionImplementor;
 import org.ict4h.atomfeed.jdbc.JdbcConnectionProvider;
 import org.ict4h.atomfeed.transaction.AFTransactionManager;
 import org.ict4h.atomfeed.transaction.AFTransactionWork;
@@ -16,7 +15,6 @@ import org.springframework.transaction.support.TransactionTemplate;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,13 +59,10 @@ public class AtomFeedHibernateTransactionManager implements AFTransactionManager
     }
 
     @Override
-    public Connection getConnection() throws SQLException {
+    public Connection getConnection() {
         //TODO: ensure that only connection associated with current thread current transaction is given
-        SessionImpl sessionImpl = (SessionImpl) getCurrentSession();
-        return sessionImpl.connection();
+        SessionImplementor session =  entityManager.unwrap(SessionImplementor.class);
+        return session.connection();
     }
 
-    private Session getCurrentSession() {
-        return entityManager.unwrap(Session.class);
-    }
 }
