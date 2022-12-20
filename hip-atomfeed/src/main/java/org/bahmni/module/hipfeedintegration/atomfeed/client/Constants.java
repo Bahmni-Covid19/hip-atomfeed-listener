@@ -5,8 +5,6 @@ public class Constants {
     public static final String OPENMRS_PROPERTY_ENCOUNTERS_TO_BE_IGNORED = "abdm.encounterTypesToBeIgnored";
     public static final String OPENMRS_PROPERTY_CONCEPTS_TO_BE_IGNORED = "abdm.conceptsTypesToBeIgnored";
     public static final String OPENMRS_PROPERTY_FORM_FIELDS_TO_BE_IGNORED = "abdm.formFieldsToBeIgnored";
-    public static final String OPENMRS_URL = "OPENMRS_URL";
-    public static final String OPENMRS_ENCOUNTER_URL = "OPENMRS_ENCOUNTER_FEED_URL";
     public static final String IDENTIFIERS = "identifiers";
     public static final String IDENTIFIER = "identifier";
     public static final String PERSON = "person";

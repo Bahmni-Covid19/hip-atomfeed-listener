@@ -3,9 +3,6 @@ package org.bahmni.module.hipfeedintegration.atomfeed.client;
 import java.io.InputStream;
 import java.util.Properties;
 
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.OPENMRS_ENCOUNTER_URL;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.OPENMRS_URL;
-
 public class AtomFeedProperties {
 
 
@@ -14,8 +11,6 @@ public class AtomFeedProperties {
     private static final String FEED_MAX_FAILED_EVENTS = "feed.maxFailedEvents";
     private static final String FAILED_EVENT_MAX_RETRY = "feed.failedEventMaxRetry";
     private static final String HANDLE_REDIRECTION = "feed.handleRedirection";
-    private static final String AUTH_URI = "openmrs.auth.uri";
-    private static final String OPENMRS_ENCOUNTER_FEED_URL = "openmrs.encounter.feed.uri";
 
     public static final String DEFAULT_PROPERTY_FILENAME = "/atomfeed.properties";
 
@@ -58,7 +53,8 @@ public class AtomFeedProperties {
 
 
     public String getProperty(String propertyName) {
-        return properties.getProperty(propertyName);
+        String env = System.getenv(propertyName);
+        return env != null ? env : properties.getProperty(propertyName);
     }
 
     public String getFeedConnectionTimeout() {
@@ -79,22 +75,6 @@ public class AtomFeedProperties {
 
     public String getHandleRedirection() {
         return getProperty(HANDLE_REDIRECTION);
-    }
-
-    public String getOpenmrsBaseUrl() {
-        String url = getProperty(AUTH_URI);
-        if(System.getenv(OPENMRS_URL) != null) {
-            url = System.getenv(OPENMRS_URL);
-        }
-        return url;
-    }
-
-    public String getOpenmrsFeedUrl() {
-        String feedName = getProperty(OPENMRS_ENCOUNTER_FEED_URL);
-        if(System.getenv(OPENMRS_ENCOUNTER_URL) != null) {
-            feedName = System.getenv(OPENMRS_ENCOUNTER_URL);
-        }
-        return feedName;
     }
 
 }
