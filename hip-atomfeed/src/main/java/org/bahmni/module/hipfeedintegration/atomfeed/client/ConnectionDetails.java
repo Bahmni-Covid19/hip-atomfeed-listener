@@ -2,7 +2,6 @@ package org.bahmni.module.hipfeedintegration.atomfeed.client;
 
 
 public class ConnectionDetails {
-
     private static final String OPENMRS_URL = "OPENMRS_URL";
     private static final String OPENMRS_USERNAME = "OPENMRS_USERNAME";
     private static final String OPENMRS_PASSWORD = "OPENMRS_PASSWORD";

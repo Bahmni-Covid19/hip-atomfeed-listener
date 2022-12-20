@@ -33,6 +33,7 @@ import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.MID
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PATIENT_REFERENCE_NUMBER;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PERSON;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PHONE_NUMBER;
+import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PHONE_NUMBER_ATTRIBUTE;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PREFERRED_NAME;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.VALUE;
 
@@ -58,8 +59,9 @@ public class OpenMRSPatientMapper {
         patient.setBirthDate(dateOfBirthFormat.parse(jsonNode.path(PERSON).path(BIRTH_DATE).asText()));
 
         JsonNode personAttributes = jsonNode.path(PERSON).path(ATTRIBUTES);
+        String phoneNumberAttribute = System.getenv(PHONE_NUMBER) != null ? System.getenv(PHONE_NUMBER) : PHONE_NUMBER_ATTRIBUTE;
         for(JsonNode attributes : personAttributes){
-            if(attributes.path(ATTRIBUTE_TYPE).path(DISPLAY).asText().replaceAll("[\\W&&[^-]]", " ").equals(PHONE_NUMBER)){
+            if(attributes.path(ATTRIBUTE_TYPE).path(DISPLAY).asText().replaceAll("[\\W&&[^-]]", " ").equals(phoneNumberAttribute)){
                 patient.setPhoneNumber(attributes.path(VALUE).asText().replaceAll("[\\W&&[^-]]", " "));
             }
         }

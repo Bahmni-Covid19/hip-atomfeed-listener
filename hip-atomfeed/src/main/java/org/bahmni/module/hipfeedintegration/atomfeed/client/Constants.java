@@ -13,7 +13,7 @@ public class Constants {
     public static final String FAMILY_NAME = "familyName";
     public static final String MIDDLE_NAME = "middleName";
     public static final String GENDER = "gender";
-    public static final String PHONE_NUMBER = "phoneNumber";
+    public static final String PHONE_NUMBER_ATTRIBUTE = "phoneNumber";
     public static final String BIRTH_DATE = "birthdate";
     public static final String ATTRIBUTES = "attributes";
     public static final String ATTRIBUTE_TYPE = "attributeType";
@@ -25,6 +25,7 @@ public class Constants {
     public static final String CARE_CONTEXT_NAME = "careContextName";
     public static final String CARE_CONTEXT_TYPE = "careContextType";
     public static final String CARE_CONTEXT_REFERENCE = "careContextReference";
+    public static final String PHONE_NUMBER = "PHONE_NUMBER";
 
     public static final String patientRestUrl = "/openmrs/ws/rest/v1/patient/";
     public static final String newCareContextUrl = "/openmrs/ws/rest/v1/hip/careContext/new?patientUuid=";
