@@ -18,6 +18,8 @@ import java.net.URISyntaxException;
 @Component
 public class AtomFeedClientFactory {
 
+    private static final String OPENMRS_ENCOUNTER_URL = "OPENMRS_ENCOUNTER_FEED_URL";
+
     @Autowired
     private AtomFeedHibernateTransactionManager transactionManager;
 
@@ -32,7 +34,7 @@ public class AtomFeedClientFactory {
 
     private FeedClient getFeedClient(AtomFeedProperties atomFeedProperties,
                                         EventWorker eventWorker, ClientCookies cookies) {
-        String uri = atomFeedProperties.getOpenmrsFeedUrl();
+        String uri = atomFeedProperties.getProperty(OPENMRS_ENCOUNTER_URL);
         try {
 
             org.ict4h.atomfeed.client.AtomFeedProperties atomFeedClientProperties = createAtomFeedClientProperties(atomFeedProperties);
