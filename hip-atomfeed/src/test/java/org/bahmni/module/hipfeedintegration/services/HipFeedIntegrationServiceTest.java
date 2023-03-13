@@ -95,7 +95,6 @@ public class HipFeedIntegrationServiceTest {
         CareContext careContext = new CareContext();
         careContext.setDisplay("Super man");
         careContext.setReferenceNumber("OPD 1");
-        careContext.setType("OPD");
         return careContext;
     }
 }

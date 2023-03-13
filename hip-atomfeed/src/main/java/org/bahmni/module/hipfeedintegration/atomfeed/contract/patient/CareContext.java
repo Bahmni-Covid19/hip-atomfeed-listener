@@ -1,7 +1,6 @@
 package org.bahmni.module.hipfeedintegration.atomfeed.contract.patient;
 
 public class CareContext {
-    private String Type;
     private String Display;
     private String ReferenceNumber;
 
@@ -11,14 +10,6 @@ public class CareContext {
 
     public void setReferenceNumber(String referenceNumber) {
         this.ReferenceNumber = referenceNumber;
-    }
-
-    public String getType() {
-        return Type;
-    }
-
-    public void setType(String type) {
-        this.Type = type;
     }
 
     public String getDisplay() {
