@@ -30,23 +30,30 @@ public class HipFeedIntegrationService {
     private static final Logger logger = LoggerFactory.getLogger(EncounterFeedWorker.class);
 
     public void processEncounter(OpenMRSEncounter openMRSEncounter) throws IOException, ParseException {
+        logger.info("------- In processEncounter -------");
         OpenMRSPatient patient = openMRSService.getPatient(openMRSEncounter.getPatientUuid());
+        logger.info("------- patient uuid -------" + patient.getPatientId());
         OpenMRSPatient patientCareContext = openMRSService.getCareContext(openMRSEncounter.getPatientUuid());
-
+        logger.info("patientCareContext........." + patientCareContext.toString());
         if(patientCareContext.getHealthId() != null) callNewContext(patient, patientCareContext);
         callSmsNotify(patient,patientCareContext);
 
     }
 
     private void callNewContext(OpenMRSPatient patient, OpenMRSPatient patientCareContext) throws IOException {
+        logger.info("------- In callNewContext -------");
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(patientCareContext.getCareContexts());
-
+        logger.info("------- jsonString -------" + jsonString);
+        logger.info("------- patientReferenceNumber -------" + patientCareContext.getPatientReferenceNumber());
+        logger.info("------- patientName -------" + patient.getGivenName());
+        logger.info("------- careContexts -------" + jsonString);
+        logger.info("------- healthId -------" + patientCareContext.getHealthId());
         String jsonInputString = "{\"patientReferenceNumber\": \"" + patientCareContext.getPatientReferenceNumber() +
                 "\",\n \"patientName\":\"" + patient.getGivenName() +
                 "\",\n\"careContexts\" : " + jsonString +
                 ",\n\"healthId\" : \"" + patientCareContext.getHealthId() + "\"}";
-
+        logger.info("------- jsonInputString -------" + jsonInputString);
        hipService.callNewContext(jsonInputString);
     }
 
