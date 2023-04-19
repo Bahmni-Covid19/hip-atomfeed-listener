@@ -21,6 +21,11 @@ public class OpenMRSEncounterBuilder {
         return this;
     }
 
+    public OpenMRSEncounterBuilder withVisitUuid(String visitUuid) {
+        openMRSEncounter.setVisitUuid(visitUuid);
+        return this;
+    }
+
     public OpenMRSEncounterBuilder withTestOrder(OpenMRSOrder order) {
         openMRSEncounter.addTestOrder(order);
         return this;

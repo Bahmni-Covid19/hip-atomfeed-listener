@@ -24,7 +24,6 @@ public class HipService {
 
 
     public String callNewContext(String body) throws IOException {
-        System.out.println("------- System.getenv(\"HIP_URL\")+newCareContext -------" + System.getenv("HIP_URL")+newCareContext);
         CloseableHttpClient client = HttpClients.createDefault();
         HttpPost httpPost = createRequest(System.getenv("HIP_URL")+newCareContext,body);
         CloseableHttpResponse response = client.execute(httpPost);
@@ -37,7 +36,6 @@ public class HipService {
     }
 
     public String smsNotify(String body) throws IOException {
-        System.out.println("------- System.getenv(\"HIP_URL\")+smsNotify -------" + System.getenv("HIP_URL")+smsNotify);
         CloseableHttpClient client = HttpClients.createDefault();
         HttpPost httpPost = createRequest(System.getenv("HIP_URL")+smsNotify,body);
         CloseableHttpResponse response = client.execute(httpPost);

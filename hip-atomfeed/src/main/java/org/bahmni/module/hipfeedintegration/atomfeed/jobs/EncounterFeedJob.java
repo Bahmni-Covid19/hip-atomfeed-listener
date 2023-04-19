@@ -33,7 +33,6 @@ public class EncounterFeedJob implements FeedJob {
         if(atomFeedClient == null){
             atomFeedClient = atomFeedClientFactory.get(encounterFeedWorker);
         }
-        logger.info("atomFeedClient........." + atomFeedClient.toString());
         logger.info("Processing feed...");
         atomFeedClient.processEvents();
         logger.info("Completed processing feed...");

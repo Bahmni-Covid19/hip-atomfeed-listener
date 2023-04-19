@@ -21,7 +21,6 @@ import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.BIR
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.CARE_CONTEXTS;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.CARE_CONTEXT_NAME;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.CARE_CONTEXT_REFERENCE;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.CARE_CONTEXT_TYPE;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.DISPLAY;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.FAMILY_NAME;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.GENDER;
@@ -30,6 +29,8 @@ import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.HEA
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.IDENTIFIER;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.IDENTIFIERS;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.MIDDLE_NAME;
+import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.MOBILE;
+import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PATIENT_NAME;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PATIENT_REFERENCE_NUMBER;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PERSON;
 import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PHONE_NUMBER;
@@ -73,8 +74,9 @@ public class OpenMRSPatientMapper {
         JsonNode jsonNode = objectMapper.readTree(patientJSON);
 
         patient.setHealthId(jsonNode.path(HEALTH_ID).asText());
+        patient.setGivenName(jsonNode.path(PATIENT_NAME).asText().replaceAll("[\\W&&[^-]]", " "));
         patient.setPatientReferenceNumber(jsonNode.path(PATIENT_REFERENCE_NUMBER).asText().replaceAll("[\\W&&[^-]]", " "));
-
+        patient.setPhoneNumber(jsonNode.path(MOBILE).asText().replaceAll("[\\W&&[^-]]", " "));
         List<CareContext> careContexts = new ArrayList<CareContext>();
         JsonNode patientCareContexts = jsonNode.path(CARE_CONTEXTS);
         for(JsonNode patientCareContext : patientCareContexts){

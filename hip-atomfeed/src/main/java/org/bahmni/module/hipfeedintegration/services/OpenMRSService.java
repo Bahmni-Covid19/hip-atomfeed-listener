@@ -43,11 +43,11 @@ public class OpenMRSService {
         String patientJSON = webClient.get(URI.create(urlPrefix + patientRestUrl + patientUuid+"?v=full"));
         return new OpenMRSPatientMapper().map(patientJSON);
     }
-    public OpenMRSPatient getCareContext(String patientUuid) throws IOException, ParseException {
+    public OpenMRSPatient getCareContext(String patientUuid, String visitUuid) throws IOException, ParseException {
         HttpClient webClient = WebClientFactory.getClient();
         String urlPrefix = getURLPrefix();
 
-        String careContextJSON = webClient.get(URI.create(urlPrefix + newCareContextUrl + patientUuid));
+        String careContextJSON = webClient.get(URI.create(urlPrefix + newCareContextUrl + patientUuid + "&visitUuid=" + visitUuid));
         return new OpenMRSPatientMapper().mapCareContext(careContextJSON);
     }
     public List<String> getValueFromGlobalProperty(String property) throws IOException {
