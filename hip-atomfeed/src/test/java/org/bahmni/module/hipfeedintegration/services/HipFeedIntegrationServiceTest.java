@@ -33,13 +33,14 @@ public class HipFeedIntegrationServiceTest {
     HipFeedIntegrationService hipFeedIntegrationService = new HipFeedIntegrationService();
 
     String PATIENT_UUID = "105059a8-5226-4b1f-b512-0d3ae685287d";
+    String VISIT_UUID = "105059a8-5226-4b1f-b512-0d3ae685287d";
 
     @Test
     public void shouldCallNewContextApi() throws IOException, ParseException {
 
         OpenMRSEncounter encounter = buildEncounter();
 
-        when(openMRSService.getCareContext(PATIENT_UUID)).thenReturn(openMRSPatient);
+        when(openMRSService.getCareContext(PATIENT_UUID,VISIT_UUID)).thenReturn(openMRSPatient);
         when(openMRSService.getPatient(PATIENT_UUID)).thenReturn(openMRSPatient);
         when(openMRSPatient.getCareContextInfo()).thenReturn("OPD");
         when(openMRSPatient.getGivenName()).thenReturn("Patient Name");
@@ -63,7 +64,7 @@ public class HipFeedIntegrationServiceTest {
         OpenMRSPatient patient = buildPatient();
         OpenMRSEncounter encounter = buildEncounter();
 
-        when(openMRSService.getCareContext(PATIENT_UUID)).thenReturn(patient);
+        when(openMRSService.getCareContext(PATIENT_UUID,VISIT_UUID)).thenReturn(patient);
         when(openMRSService.getPatient(PATIENT_UUID)).thenReturn(patient);
 
         hipFeedIntegrationService.processEncounter(encounter);
@@ -78,7 +79,7 @@ public class HipFeedIntegrationServiceTest {
 
 
     OpenMRSEncounter buildEncounter() {
-        return new OpenMRSEncounterBuilder().withPatientUuid(PATIENT_UUID).build();
+        return new OpenMRSEncounterBuilder().withPatientUuid(PATIENT_UUID).withVisitUuid(VISIT_UUID).build();
     }
 
     OpenMRSPatient buildPatient() {

@@ -47,6 +47,7 @@ public class EncounterFeedWorkerIT extends OpenMRSMapperBaseTest{
     private HipFeedIntegrationService hipFeedIntegrationService;
 
     String PATIENT_UUID = "105059a8-5226-4b1f-b512-0d3ae685287d";
+    String VISIT_UUID = "105059a8-5226-4b1f-b512-0d3ae685287d";
 
 
     @Before
@@ -57,7 +58,7 @@ public class EncounterFeedWorkerIT extends OpenMRSMapperBaseTest{
         when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_CONCEPTS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("concept in ignored list")));
         when(openMRSService.getValueFromGlobalProperty(OPENMRS_PROPERTY_FORM_FIELDS_TO_BE_IGNORED)).thenReturn(new ArrayList<String>(Arrays.asList("formField in ignored list")));
         when(openMRSService.getPatient(PATIENT_UUID)).thenReturn(new OpenMRSPatient());
-        when(openMRSService.getCareContext(PATIENT_UUID)).thenReturn(new OpenMRSPatient());
+        when(openMRSService.getCareContext(PATIENT_UUID,VISIT_UUID)).thenReturn(new OpenMRSPatient());
     }
 
     @Test

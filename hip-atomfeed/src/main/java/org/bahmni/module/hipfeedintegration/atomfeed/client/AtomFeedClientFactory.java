@@ -38,7 +38,7 @@ public class AtomFeedClientFactory {
         try {
 
             org.ict4h.atomfeed.client.AtomFeedProperties atomFeedClientProperties = createAtomFeedClientProperties(atomFeedProperties);
-            
+
             AllFeeds allFeeds = new AllFeeds(atomFeedClientProperties, cookies);
             AllMarkersJdbcImpl allMarkers = new AllMarkersJdbcImpl(transactionManager);
             AllFailedEventsJdbcImpl allFailedEvents = new AllFailedEventsJdbcImpl(transactionManager);

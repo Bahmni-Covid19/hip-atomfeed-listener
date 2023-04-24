@@ -7,6 +7,7 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OpenMRSEncounter {
+    private String visitUuid;
     private String encounterUuid;
     private String patientUuid;
     private String encounterType;
@@ -17,8 +18,8 @@ public class OpenMRSEncounter {
     public OpenMRSEncounter() {
     }
 
-    public OpenMRSEncounter(String encounterUuid, String patientUuid,String encounterType, List<OpenMRSOrder> orders, List<OpenMRSProvider> providers, List<OpenMRSObs> observations) {
-
+    public OpenMRSEncounter(String visitUuid, String encounterUuid, String patientUuid, String encounterType, List<OpenMRSOrder> orders, List<OpenMRSProvider> providers, List<OpenMRSObs> observations) {
+        this.visitUuid = visitUuid;
         this.encounterUuid = encounterUuid;
         this.orders = orders;
         this.patientUuid = patientUuid;
@@ -78,5 +79,13 @@ public class OpenMRSEncounter {
 
     public void setObservations(List<OpenMRSObs> observations) {
         this.observations = observations;
+    }
+
+    public String getVisitUuid() {
+        return visitUuid;
+    }
+
+    public void setVisitUuid(String visitUuid) {
+        this.visitUuid = visitUuid;
     }
 }

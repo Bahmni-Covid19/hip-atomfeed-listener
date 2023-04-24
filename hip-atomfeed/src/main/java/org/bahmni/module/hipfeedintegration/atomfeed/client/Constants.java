@@ -25,10 +25,13 @@ public class Constants {
     public static final String CARE_CONTEXT_NAME = "careContextName";
     public static final String CARE_CONTEXT_TYPE = "careContextType";
     public static final String CARE_CONTEXT_REFERENCE = "careContextReference";
+    public static final String MOBILE = "mobile";
+    public static final String PATIENT_NAME = "patientName";
     public static final String PHONE_NUMBER = "PHONE_NUMBER";
 
+
     public static final String patientRestUrl = "/openmrs/ws/rest/v1/patient/";
-    public static final String newCareContextUrl = "/openmrs/ws/rest/v1/hip/careContext/new?patientUuid=";
+    public static final String newCareContextUrl = "/openmrs/ws/rest/v1/hip/careContext?patientUuid=";
     public static final String globalPropertyurl = "/openmrs/ws/rest/v1/systemsetting/";
     public static final String newCareContext = "/v0.5/hip/new-carecontext";
     public static final String smsNotify = "/v0.5/hip/patients/sms/notify";
