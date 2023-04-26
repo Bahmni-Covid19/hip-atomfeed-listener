@@ -29,6 +29,8 @@ public class HipFeedIntegrationService {
             patientCareContext = openMRSService.getCareContext(openMRSEncounter.getPatientUuid(), openMRSEncounter.getVisitUuid());
             careContextCache.put(openMRSEncounter.getVisitUuid(), patientCareContext);
         }
+        else
+            patientCareContext = careContextCache.get(openMRSEncounter.getVisitUuid());
         callNewContext(patientCareContext);
         callSmsNotify(patientCareContext);
     }
