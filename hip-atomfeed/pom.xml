@@ -32,11 +32,11 @@
         <atomfeed.version>1.10.1</atomfeed.version>
         <hapi-base.version>2.2</hapi-base.version>
         <spring.profiles.active>local,no-liquibase</spring.profiles.active>
-        <quartz.version>2.4.0-rc1</quartz.version>
+        <quartz.version>2.2.1</quartz.version>
         <postgresql.version>42.5.0</postgresql.version>
         <hsqldb.version>2.7.1</hsqldb.version>
         <web-clients.version>0.94.3</web-clients.version>
-        <httpclient.version>4.5.13</httpclient.version>
+        <httpclient.version>4.5</httpclient.version>
         <commons-io.version>2.7</commons-io.version>
         <liquibase.version>4.9.0</liquibase.version>
         <liquibase-slf4j.version>1.0.0</liquibase-slf4j.version>
@@ -209,11 +209,6 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>${log4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>2.0</version>
         </dependency>
     </dependencies>
 </project>
