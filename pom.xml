@@ -33,8 +33,12 @@
                 <version>3.3.1</version>
                 <configuration>
                     <from>
-                        <image>amazoncorretto:8</image>
+                        <image>amazoncorretto:11</image>
                         <platforms>
+                            <platform>
+                                <architecture>amd64</architecture>
+                                <os>linux</os>
+                            </platform>
                             <platform>
                                 <architecture>arm64</architecture>
                                 <os>linux</os>
