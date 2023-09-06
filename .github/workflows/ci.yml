@@ -29,13 +29,13 @@ jobs:
           ./setArtifactVersion.sh
           rm setArtifactVersion.sh
       - name: maven build
-        run: mvn clean install
+        run: mvn clean install -DskipTests
       - name: Build hip atomfeed with Maven
         env:
           DOCKER_REGISTRY_URL: docker.io
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        run: mvn compile jib:build -Djib.to.auth.username=${DOCKER_USERNAME} -Djib.to.auth.password=${DOCKER_PASSWORD} -Djib.to.tags=$ARTIFACT_VERSION,latest -Dmaven.test.skip=true
+        run: mvn compile jib:build -Djib.to.auth.username=${DOCKER_USERNAME} -Djib.to.auth.password=${DOCKER_PASSWORD} -Djib.to.tags=$ARTIFACT_VERSION,latest -DskipTests
       - name: Helm - Update Version and Image Tag
         run: |
           yq --inplace '.image.tag = "${{ env.ARTIFACT_VERSION }}"' $HELM_CHART_PATH/values.yaml
