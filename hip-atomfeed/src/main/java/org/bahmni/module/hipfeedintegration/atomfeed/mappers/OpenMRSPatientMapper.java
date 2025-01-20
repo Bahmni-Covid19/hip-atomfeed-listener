@@ -15,34 +15,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.ATTRIBUTES;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.ATTRIBUTE_TYPE;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.BIRTH_DATE;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.CARE_CONTEXTS;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.CARE_CONTEXT_NAME;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.CARE_CONTEXT_REFERENCE;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.DISPLAY;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.FAMILY_NAME;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.GENDER;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.GIVEN_NAME;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.HEALTH_ID;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.IDENTIFIER;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.IDENTIFIERS;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.MIDDLE_NAME;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.MOBILE;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PATIENT_NAME;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PATIENT_REFERENCE_NUMBER;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PERSON;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PHONE_NUMBER;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PHONE_NUMBER_ATTRIBUTE;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.PREFERRED_NAME;
-import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.VALUE;
+import static org.bahmni.module.hipfeedintegration.atomfeed.client.Constants.*;
 
 
 public class OpenMRSPatientMapper {
     private ObjectMapper objectMapper;
     private SimpleDateFormat dateOfBirthFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-    private Logger logger = LoggerFactory.getLogger(EncounterFeedWorker.class);
+    private Logger logger = LoggerFactory.getLogger(OpenMRSPatientMapper.class);
 
     public OpenMRSPatientMapper() {
         this.objectMapper = ObjectMapperRepository.objectMapper;
@@ -83,11 +62,19 @@ public class OpenMRSPatientMapper {
             CareContext careContext = new CareContext();
             careContext.setDisplay(patientCareContext.path(CARE_CONTEXT_NAME).asText());
             careContext.setReferenceNumber(patientCareContext.path(CARE_CONTEXT_REFERENCE).asText());
+            List<String> hiTypes = new ArrayList<>();
+            JsonNode hiTypesNode = patientCareContext.path(CARE_CONTEXT_HITYPES);
+            if (hiTypesNode.isArray()) {
+                for (JsonNode hiTypeNode : hiTypesNode) {
+                    hiTypes.add(hiTypeNode.asText());
+                    logger.info(hiTypeNode.asText());
+                }
+            }
+            careContext.setHiTypes(hiTypes);
             careContexts.add(careContext);
         }
         patient.setCareContexts(careContexts);
-
+        logger.info(patient.toString());
         return patient;
     }
-
 }
