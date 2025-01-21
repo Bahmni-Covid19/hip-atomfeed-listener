@@ -67,14 +67,12 @@ public class OpenMRSPatientMapper {
             if (hiTypesNode.isArray()) {
                 for (JsonNode hiTypeNode : hiTypesNode) {
                     hiTypes.add(hiTypeNode.asText());
-                    logger.info(hiTypeNode.asText());
                 }
             }
             careContext.setHiTypes(hiTypes);
             careContexts.add(careContext);
         }
         patient.setCareContexts(careContexts);
-        logger.info(patient.toString());
         return patient;
     }
 }
